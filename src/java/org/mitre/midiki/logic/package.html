@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN""http://www.w3.org/TR/REC-html40/frameset.dtd">
+<!--NewPage-->
+<HTML>
+<head>
+<!--
+
+  @(#)package.html	1.60 2003/12/04
+  for org.mitre.midiki.logic
+
+  Copyright 2003-2004 The MITRE Corporation (http://www.mitre.org/).
+  All Rights Reserved.
+  Consult the LICENSE file in the root of the distribution for terms
+  and restrictions.
+
+-->
+</head>
+<body bgcolor="white">
+<P>
+Provides abstract logic support for information state management.
+<h2>Introduction</h2>
+Midiki is built on the concept of a distributed information state, built up
+as a forest of typed feature structures. The feature structures and their
+components are manipulated through logical unification. This package provides
+implementations of certain basic logic data structures and operations
+to support that manipulation.
+<h3>Logic operations</h3>
+The logic data structures are:<p>
+<ul><li>Variable - a named placeholder which can unify with any value.
+Such a unification is referred to as a <b>binding</b>; from that point on,
+referring to that variable is treated as a direct reference to that bound
+value. The binding can be undone by <b>backtracking</b> to an alternate
+unification.</li>
+<li>Predicate - a named relationship with zero or more parameters</li>
+<li>Feature Structure - a named type with zero or more attributes. Some of
+these attributes may be methods, of two types:
+<ul><li>Query - may not change the information state, but may return multiple
+alternative variable bindings</li>
+<li>Action - expected to change the information state, but may not return
+more than one set of bindings</li></ul></li>
+<li>Atom - every other kind of Java object (not explicitly defined).</li></ul>
+Predicates and feature structures, as composite structures, are very similar.
+Feature structures are sometimes modeled using predicates. In Midiki, however,
+we make some deliberate distinctions between them. Feature structures have
+a type and may have methods, while predicates have neither. (The details of the type system are currently limited to feature structures, without inheritance.
+That is expected to change.)<p>
+The operations provided are:<p>
+<ul><li>Term matching - compares two logical terms to determine if they could
+unify, and any variable bindings necessary to make it so</li>
+<li>Dereferencing - replaces any variables in an expression with their
+ current bindings</li>
+<li>Unification - term matching of two expressions, followed by dereferencing
+a copy of the expression.</li></ul><p>
+Atoms (i.e., most Java objects) will unify if <code>equals</code> returns
+<code>true</code>. Predicates unify if the relation (or <b>functor</b>) matches
+and every parameter unifies. Feature structures unify if their types are
+compatible and all of their data attributes unify.<p>
+<h3>Binding and backtracking</h3>
+Binding is mediated by a special <code>Bindings</code> object.
+This object acts like a <code>Map</code> to associate a variable name with
+its current value, acts like an <code>Iterator</code> to backtrack through
+possible value assignments, and acts like a <code>Stack</code> to control
+which variables are bound or unbound when creating alternative assignments.<p>
+Variable binding is the primary means of communication between a
+service handler and a client.<p>
+<h2>Package Specification</h2>
+
+<img src="org_mitre_midiki_logic.gif"></img>
+<!-- FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT
+<ul>
+  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+</ul>
+-->
+
+<h2>Related Documentation</h2>
+<!--
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+<ul>
+  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+</ul>
+-->
+
+<!-- Put @see and @since tags down here. -->
+</BODY>
+</HTML>

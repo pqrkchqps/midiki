@@ -1,0 +1,2234 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>Midiki User’s Manual</TITLE>
+</HEAD>
+<BODY LINK="#0000ff">
+
+<B><FONT SIZE=4><P ALIGN="CENTER"><IMG SRC="Image1.gif" WIDTH=153 HEIGHT=64></P>
+<P ALIGN="CENTER"></P>
+<P ALIGN="CENTER">Midiki User’s Manual</P>
+</B></FONT><FONT FACE="Courier New" SIZE=2>
+</FONT><P ALIGN="CENTER">Version 0.1.4 Beta</P>
+<P ALIGN="CENTER"></P>
+<P ALIGN="CENTER">January, 2005</P>
+<P ALIGN="CENTER"></P>
+<P ALIGN="CENTER">&copy; The MITRE Corporation</P>
+<FONT FACE="Courier New" SIZE=2>
+</FONT><P>&nbsp;</P>
+<P>Table of Contents</P>
+<FONT FACE="Courier New" SIZE=2><P>&nbsp;</P>
+</FONT><P><A HREF="#_Toc85967389">1&#9;Introduction&#9;<A HREF="#_Toc85967389">*</A></A>
+<P><A HREF="#_Toc85967390">2&#9;Installation&#9;<A HREF="#_Toc85967390">*</A></A></P>
+<P><A HREF="#_Toc85967391">3&#9;A quick tour of Midiki&#9;<A HREF="#_Toc85967391">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967392">3.1&#9;Initial concepts&#9;<A HREF="#_Toc85967392">*</A></A></P>
+<P><A HREF="#_Toc85967393">3.2&#9;File structure&#9;<A HREF="#_Toc85967393">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967394">4&#9;Configuring Midiki for differing dialogue styles and domains&#9;<A HREF="#_Toc85967394">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967395">4.1&#9;Initial Questions&#9;<A HREF="#_Toc85967395">*</A></A></P>
+<P><A HREF="#_Toc85967396">4.2&#9;Domain Engineering&#9;<A HREF="#_Toc85967396">*</A></A></P>
+<P><A HREF="#_Toc85967397">4.2.1&#9;Domains in Midiki&#9;<A HREF="#_Toc85967397">*</A></A></P>
+<P><A HREF="#_Toc85967398">4.2.2&#9;Example domain&#9;<A HREF="#_Toc85967398">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967399">4.2.2.1&#9;Obtaining the caller’s address&#9;<A HREF="#_Toc85967399">*</A></A></P>
+<P><A HREF="#_Toc85967400">4.2.2.2&#9;Obtaining data for specific information seeking tasks&#9;<A HREF="#_Toc85967400">*</A></A></P>
+<P><A HREF="#_Toc85967401">4.2.2.3&#9;Conversation tracking&#9;<A HREF="#_Toc85967401">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967402">4.3&#9;Fleshing out the domain with plans&#9;<A HREF="#_Toc85967402">*</A></A></P>
+<P><A HREF="#_Toc85967403">4.3.1&#9;Plans in Midiki&#9;<A HREF="#_Toc85967403">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967404">4.3.1.1&#9;Dialogue moves&#9;<A HREF="#_Toc85967404">*</A></A></P>
+<P><A HREF="#_Toc85967405">4.3.1.2&#9;Strategies&#9;<A HREF="#_Toc85967405">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967406">4.3.1.2.1&#9;The Findout Strategy&#9;<A HREF="#_Toc85967406">*</A></A></P>
+<P><A HREF="#_Toc85967407">4.3.1.2.2&#9;The Inform Strategy&#9;<A HREF="#_Toc85967407">*</A></A></P>
+<P><A HREF="#_Toc85967408">4.3.1.2.3&#9;The Respond Strategy&#9;<A HREF="#_Toc85967408">*</A></A></P>
+<P><A HREF="#_Toc85967409">4.3.1.2.4&#9;Opening and closing strategies&#9;<A HREF="#_Toc85967409">*</A></A></P>
+<P><A HREF="#_Toc85967410">4.3.1.2.5&#9;Other plan elements&#9;<A HREF="#_Toc85967410">*</A></A></P></DIR>
+</DIR>
+
+<P><A HREF="#_Toc85967411">4.3.2&#9;Example domain plans&#9;<A HREF="#_Toc85967411">*</A></A></P>
+<P><A HREF="#_Toc85967412">4.4&#9;Extending Midiki to handle these plans&#9;<A HREF="#_Toc85967412">*</A></A></P>
+<P><A HREF="#_Toc85967413">4.4.1&#9;Discourse history: Inheritance of values&#9;<A HREF="#_Toc85967413">*</A></A></P>
+<P><A HREF="#_Toc85967414">4.4.2&#9;Maintaining a plan stack&#9;<A HREF="#_Toc85967414">*</A></A></P>
+<P><A HREF="#_Toc85967415">4.4.3&#9;Validating and constraining attribute values&#9;<A HREF="#_Toc85967415">*</A></A></P>
+<P><A HREF="#_Toc85967416">4.4.4&#9;Executing external routines&#9;<A HREF="#_Toc85967416">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967417">5&#9;Using Midiki within a dialogue system  infrastructure&#9;<A HREF="#_Toc85967417">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967418">5.1&#9;Information State architecture&#9;<A HREF="#_Toc85967418">*</A></A></P>
+<P><A HREF="#_Toc85967419">5.1.1&#9;Structure of the Information State&#9;<A HREF="#_Toc85967419">*</A></A></P>
+<P><A HREF="#_Toc85967420">5.1.2&#9;Managing the Information State&#9;<A HREF="#_Toc85967420">*</A></A></P>
+<P><A HREF="#_Toc85967421">5.1.3&#9;Agents: Data subscribers and service providers&#9;<A HREF="#_Toc85967421">*</A></A></P>
+<P><A HREF="#_Toc85967422">5.2&#9;How to build a new service inside Midiki&#9;<A HREF="#_Toc85967422">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967423">5.2.1.1&#9;Implementing a Query&#9;<A HREF="#_Toc85967423">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967424">5.2.1.1.1&#9;Scaling issues&#9;<A HREF="#_Toc85967424">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967425">5.2.1.2&#9;Implementing a Method&#9;<A HREF="#_Toc85967425">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967426">5.3&#9;How to use an existing service outside Midiki&#9;<A HREF="#_Toc85967426">*</A></A></P>
+<P><A HREF="#_Toc85967427">5.3.1&#9;Creating a Mediator&#9;<A HREF="#_Toc85967427">*</A></A></P>
+<P><A HREF="#_Toc85967428">5.3.2&#9;Mediator operations&#9;<A HREF="#_Toc85967428">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967429">5.3.2.1&#9;Configuring the Mediator&#9;<A HREF="#_Toc85967429">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967430">5.3.2.1.1&#9;Public name&#9;<A HREF="#_Toc85967430">*</A></A></P>
+<P><A HREF="#_Toc85967431">5.3.2.1.2&#9;Agent name&#9;<A HREF="#_Toc85967431">*</A></A></P>
+<P><A HREF="#_Toc85967432">5.3.2.1.3&#9;Configuration&#9;<A HREF="#_Toc85967432">*</A></A></P>
+<P><A HREF="#_Toc85967433">5.3.2.1.4&#9;Midiki protocol status&#9;<A HREF="#_Toc85967433">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967434">5.3.2.2&#9;Connecting to the agent framework&#9;<A HREF="#_Toc85967434">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967435">5.3.2.2.1&#9;Registering this Mediator&#9;<A HREF="#_Toc85967435">*</A></A></P>
+<P><A HREF="#_Toc85967436">5.3.2.2.2&#9;Declaring/specifying your services&#9;<A HREF="#_Toc85967436">*</A></A></P>
+<P><A HREF="#_Toc85967437">5.3.2.2.3&#9;Completing startup&#9;<A HREF="#_Toc85967437">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967438">5.3.2.3&#9;Invoking services&#9;<A HREF="#_Toc85967438">*</A></A></P><DIR>
+
+<P><A HREF="#_Toc85967439">5.3.2.3.1&#9;Calling out to other agents&#9;<A HREF="#_Toc85967439">*</A></A></P>
+<P><A HREF="#_Toc85967440">5.3.2.3.2&#9;Responding to requests from other agents&#9;<A HREF="#_Toc85967440">*</A></A></P>
+<P><A HREF="#_Toc85967441">5.3.2.3.3&#9;Pausing and resuming execution&#9;<A HREF="#_Toc85967441">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967442">5.3.2.4&#9;Maintaining Information State attributes&#9;<A HREF="#_Toc85967442">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967443">5.3.3&#9;Operation sequence&#9;<A HREF="#_Toc85967443">*</A></A></P>
+<P><A HREF="#_Toc85967444">5.4&#9;The Executive class and Midiki properties&#9;<A HREF="#_Toc85967444">*</A></A></P>
+<P><A HREF="#_Toc85967445">5.5.&#9;From English to Midiki and back again&#9;<A HREF="#_Toc85967445">*</A></A></P>
+<P><A HREF="#_Toc85967446">5.6&#9;Testing Midiki with GalaxyCommunicator&#9;<A HREF="#_Toc85967446">*</A></A></P></DIR>
+
+<P><A HREF="#_Toc85967447">6&#9;Information State Display&#9;<A HREF="#_Toc85967447">*</A></A></P>
+<P><A HREF="#_Toc85967448">7&#9;Acknowledgements&#9;<A HREF="#_Toc85967448">*</A></A></P>
+<P><A HREF="#_Toc85967449">8&#9;References&#9;<A HREF="#_Toc85967449">*</A></A></P>
+<B><FONT FACE="Arial" SIZE=5></P>
+<P><A NAME="_Toc85967389">1&#9;Introduction</A></P>
+</B></FONT>
+<P>This manual describes Midiki (the MITRE Dialogue Kit), a configurable dialogue manager (DM).</P>
+
+<P>Midiki implements the Information State theory of dialogue management, as described in (among other places) Traum et al. (1999), and Larsson et al. (2002).</P>
+
+<P>Midiki was inspired by TRINDIKIT (http://www.ling.gu.se/projekt/trindi/trindikit), the TRINDI project’s implementation of Information State dialogue management.  Midiki differs from TRINDIKIT in several ways.  Midiki is implemented in Java, instead of Prolog.  It requires no special scripting languages for dialogue control or rule-writing, relying instead on Java method calls.  It allows for greater control of information state integrity during concurrent processing, so concurrent modules can’t &quot;step on&quot; each other’s effects unpredictably.  Finally, Midiki abstracts away from any particular dialogue system inter-module communication protocol, though it is compatible with several, as explained below.</P>
+
+<P>As Midiki is based on the Information State theory of dialogue management, it is essential that anyone planning to configure Midiki be familiar with that theory.  Traum et al. (1999) provide a good overview of the theory, as well as ways to configure an Information State to handle things like Questions Under Discussion, Grounding, and Conversational Game Theory.  Although the authors use TRINDIKIT for their examples, the discussion will translate to Midiki.  Chapter 2 of Larsson et al. (2002) also provides a brief background of the theory.  Other publications can be found at the TRINDI project’s website: http://www.ling.gu.se/projekt/trindi/publications.html.</P>
+
+<P>Basic terms required for an understanding of Midiki include &quot;information state&quot;, &quot;dialogue move engine&quot;, &quot;update&quot; and &quot;select&quot;, and &quot;shared&quot; and &quot;private&quot; information.  We’ll assume the reader understands these concepts from the above-mentioned papers.</P>
+
+<P>Midiki is a dialogue manager, not an infrastructure for a dialogue system.  Excellent infrastructures already exist.  Two such backbones are GalaxyCommunicator (http://communicator.sourceforge.net) and the Open Agent Architecture (OAA, http://www.ai.sri.com/~oaa), and Midiki can interoperate with both of them.</P>
+
+<P>Although Midiki is only a dialogue manager, not a dialogue system, it can’t be configured and tested in a vacuum.  Other dialogue system modules are required, including perhaps speech recognition, speech synthesis, natural language understanding, natural language generation, a back-end knowledge source, planning modules, and others.  Some such modules are provided with Midiki, although these are simple stubs used merely for testing.  A number of fully-functional modules are available from third parties.  If these modules are compatible with either GalaxyCommunicator or the OAA, then Midiki can communicate with them.  Some configuration might be necessary, however, depending on how you configure your Midiki dialogue manager.  For instance, it might be necessary to convert between text strings (which other modules use as input or output) and dialogue moves (which Midiki understands).  An example of this is discussed in Chapter 5 of this manual.</P>
+
+<P>The Information State theory of dialogue is intended to allow creation of more complex, flexible dialogues.  Because of this, there may be more of a learning curve for Midiki than for simpler, script-based dialogue managers.  The probable Midiki user community will include dialogue researchers interested in experimenting with dialogue theory, as well as implementers who want to create sophisticated dialogue strategies for their fielded dialogue systems.</P>
+
+<P>Because Midiki is designed to allow sophisticated experimentation with a variety of dialogue theories and strategies, there is no simple &quot;1-2-3&quot; software wizard which will enable a designer to build a dialogue manager from scratch.  Rather, a designer will probably learn by adopting and then adapting an existing Midiki dialogue manager.  This manual will therefore model such an approach, by first presenting the baseline Midiki, as shipped in its distribution, and then showing how to adapt it to a new dialogue domain.  The domain we’ll use is a tax-authority telephone help line.</P>
+
+<P>One of our future goals is to indeed develop a wizard which will allow rapid dialogue manager design, perhaps by importing domain information from an onotology editor and lexicon.  For now, however, the designer will have to manually edit some of Midiki’s files to adapt it to a new domain and dialogue style.  For this reason, Midiki developers should be familiar with Java.</P>
+
+<P>This manual consists of 5 chapters, including this introduction.  Chapter 2 describes how to download, install, and test Midiki, using several sample configurations supplied.  Chapter 3 provides a quick tour of Midiki and its files.  Chapter 4 explains how to configure Midiki for a new dialogue style and domain, by walking through an example.  Chapter 5 discusses using Midiki within a dialogue system infrastructure such as GalaxyCommunicator or the OAA.</P>
+<B><FONT FACE="Arial" SIZE=5><P>&nbsp;</P>
+<P><A NAME="_Toc85967390">2&#9;Installation</A></P>
+</B></FONT>
+<P>Midiki has been tested on Windows 2000 and Linux.  It has also been reported to run on MacOS X.</P>
+
+<P>Midiki is available from <A HREF="http://www.sourceforge.net/">www.sourceforge.net</A>.  The distribution contains pre-compiled .jar files.</P>
+
+<P>To test Midiki:</P>
+
+
+<UL>
+<LI>Download <FONT FACE="Courier New" SIZE=2>midiki-0.1.4.jar</FONT> to your hard drive.<BR>
+</LI>
+<LI>Bring up a cmd shell (e.g. Start:Run:cmd on Windows).</LI></UL>
+
+
+
+<UL>
+<LI>cd to the directory containing <FONT FACE="Courier New" SIZE=2>midiki-0.1.4.jar</FONT>.</LI></UL>
+
+
+
+<UL>
+<LI>To test a sample medical diagnosis dialogue, type</LI></UL>
+<DIR>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>java -classpath midiki-0.1.4.jar &#9;org.mitre.dm.qud.domain.diagnosis.diagnosis_dm</P>
+</FONT></DIR>
+</DIR>
+
+
+<UL>
+<LI>A java window should come up.  Type your answers in the text box at the bottom to get your diagnosis.</LI></UL>
+
+
+
+<UL>
+<LI>To quit, close the window by clicking the "X" in the upper right corner.</LI></UL>
+
+
+<P>&nbsp;</P>
+<P>Although the distribution contains pre-compiled .jar files, if you wish to compile Midiki yourself, you'll need to have installed two other pieces of software:</P>
+<DIR>
+
+<P>(1) A recent version of the Java JDK (such as 1.4.2).</P>
+<P>&#9;You can get that from http://www.sun.com/java</P>
+<P>&#9;Be sure to set an environment variable JAVA_HOME to point to the <FONT FACE="Courier New" SIZE=2>jdk</FONT> directory (above the bin directory).</P>
+<P>&#9;Also set an environment variable JDK_HOME pointing to the same place.</P>
+
+<P>(2) A recent version (such as 1.6.1) of Ant, which is a makefile utility for Java.</P>
+
+<P>&#9;You can get that from ant.apache.org.</P>
+<P>&#9;Follow the instructions for adding the Ant bin directory to your path.</P>
+<P>&#9;Also set an environment variable ANT_HOME to wherever you installed Ant.</P></DIR>
+
+<P>Once JDK and Ant are installed, you can compile Midiki, as follows:</P>
+
+
+<UL>
+<LI>Download <FONT FACE="Courier New" SIZE=2>midiki-src-0.1.4.zip</FONT> to your hard drive.<BR>
+</LI>
+<LI>Extract <FONT FACE="Courier New" SIZE=2>midiki-src-0.1.4.zip</FONT> with your favorite extractor (e.g. WinZip).<BR>
+</LI>
+<LI>You should have a folder called <FONT FACE="Courier New" SIZE=2>midiki-0.1.4</FONT>.  It should contain, among other things, a file called <FONT FACE="Courier New" SIZE=2>build.xml</FONT>.</LI></UL>
+
+
+
+<UL>
+<LI>Set an environment variable <FONT FACE="Courier New" SIZE=2>MIDIKI_HOME</FONT> to this directory.</LI></UL>
+
+
+
+<UL>
+<LI>Bring up a cmd shell (e.g. Start:Run:cmd on Windows).</LI></UL>
+
+
+
+<UL>
+<LI>cd to <FONT FACE="Courier New" SIZE=2>$MIDIKI_HOME</LI></UL>
+
+</FONT>
+
+<UL>
+<LI>Type:<BR>
+&#9;<FONT FACE="Courier New" SIZE=2>ant</LI></UL>
+
+</FONT>
+
+<UL>
+<LI>Ant will find  <FONT FACE="Courier New" SIZE=2>build.xml</FONT>, and report back on all possible targets to compile (without yet compiling anything).<BR>
+</LI>
+<LI>To compile and build Midiki, type:<BR>
+&#9;<FONT FACE="Courier New" SIZE=2>ant build-midiki</LI></UL>
+
+</FONT>
+
+<UL>
+<LI>If all goes well, Ant will successfully build <FONT FACE="Courier New" SIZE=2>midiki-0.1.4.jar</FONT> in a subdirectory called <FONT FACE="Courier New" SIZE=2>target</FONT>.<BR>
+</LI>
+<LI>Ant will also allow you to build GalaxyCommunicator and OAA extensions to Midiki, if you have those packages installed.  See Chapter 5 for more details.</LI></UL>
+
+
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<B><FONT FACE="Arial" SIZE=5><P>&nbsp;</P>
+<P><A NAME="_Toc85967391">3&#9;A quick tour of Midiki</A></P>
+</FONT><I><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967392">3.1&#9;Initial concepts</A></P>
+</B></I></FONT>
+<P>As Midiki’s architecture is based on that of TRINDIKIT, we strongly recommend you to have learned about TRINDIKIT’s architecture, using the references given in Chapter 1.</P>
+
+<P>Users familiar with TRINDIKIT’s architecture will know that the central component is the Information State (IS).  Midiki’s version of an Information State is a collection of <I>contracts</I>, or public interfaces describing the information available inside the IS.  A piece of information inside a contract is an <I>attribute</I>.</P>
+
+<P>Contracts are somewhat analogous to TRINDIKIT’s interface variables, and the idea of an attribute-within-a-contract is somewhat analogous to GalaxyCommunicator’s slot-within-a-frame.  A contract also, however, defines operations or <I>methods</I> which can be performed on its attributes, typically to update the Information State.  In addition, a contract can contain a <I>query</I>, to query the Information State, typically used by the condition part of a rule.  Contracts are very general, and any module within Midiki, not just the Information State, can use them to communicate.</P>
+
+<P>Whereas a contract is an abstract definition of an interface, the actual code which implements a contract is called a <I>cell</I>.  In the sample code presented in this manual, you’ll see both contract definitions and cell implementations.</P>
+
+<P>The actual algorithm for managing a dialogue consists of firing <I>rules</I>.  A rule evaluates the current information state and, if all of the rule’s conditions are satisfied, executes actions which are expected to change the information state and/or the environment.</P>
+
+<P>The algorithm for managing a dialogue resides in a process, or agent, called the <I>Dialogue Move Engine</I> (DME).  The DME actually has two algorithms, using two kinds of rules.  The first algorithm is <I>update</I> (using <I>update rules</I>), which updates the Information State, typically with information from the user or from some other module (such as a back-end data retrieval).  The second algorithm is <I>select</I> (using <I>select rules</I>), which selects the next system move.</P>
+
+<P>Rules can be grouped into <I>rulesets</I>.  A ruleset is a rule that contains other rules, and succeeds when any one of them succeeds.  It’s useful for grouping related but mutually-exclusive rules.</P>
+<P>Midiki also has a notion of a <I>domain</I>.  A domain is a resource that describes different entities (&quot;things&quot; in that domain), their attributes, permissible values for those attributes, and plans for talking about those entities in the pursuit of some system task.  (By <I>task</I>, we informally mean the job the system is trying to help the user carry out; e.g. book a flight).</P>
+
+<P>During the course of dialogue processing, the domain will be asked to determine the relevance of user input to the entities and plans, to fetch new plans when needed, and to monitor plan execution.  Chapter 4 discusses domains in more detail.</P>
+
+<P>There are several other terms we’ll use, which have different meanings to different dialogue researchers.  We’ll provide our own definitions here:</P>
+<DIR>
+<DIR>
+<DIR>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Dialogue move:&#9;A basic unit of discourse, contained in an utterance.  A single utterance may yield more than one dialogue move.  Examples include moves such as <I>ask</I> and <I>answer</I>.</P>
+<P>Strategy:&#9;A level higher than dialogue moves.  A strategy is similar to what might be found in a conversational game.  An example strategy might be <I>findout</I>, as in &quot;I want to find out information&quot;, and could include using an <I>ask</I> move to prompt an <I>answer</I> move.</P>
+<P>Plan:&#9;A level higher than strategies.  A plan is a typical way of performing a task, using a set of strategies.  For instance, given a task to fill out a form with the conversational partner’s contact information, a plan might be <I>fill_out_form</I>, with a series of <I>findout</I> strategies for getting a person’s name, address, email, etc.</P>
+<P>Agenda:&#9;Whereas a plan is a typical way of performing a task, an agenda is a dynamic list of what’s really happening while performing that task with a real user.  For example, the DM may have to push a new strategy on the agenda to handle an interruption by the user, and then pop that strategy off when the interruption has been handled.  A stack is a common agenda structure, and is used in the example we’ll present.  An agenda can be thought of as a list the DM looks to for what to do next.</P>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<P>Finally, Midiki actually maintains two views of the Information State.  One, called the Immutable Information State (IIS), is a read-only view offered to queries and conditions.  In Midiki’s code, the object for this is named <FONT FACE="Courier New" SIZE=2>iis</FONT>.  The other view has write-permission, and is offered to methods which can update the Information State.  The object for this (normal) view of the Information State is named simply <FONT FACE="Courier New" SIZE=2>is</FONT>.</P>
+<P>&nbsp;</P>
+<B><I><FONT FACE="Arial" SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967393">3.2&#9;File structure</A></P>
+</B></I></FONT>
+<P>Having provided an overview of Midiki’s basic concepts, we’ll now describe Midiki’s file structure, describing where each component of Midiki lives in the Midiki distribution.  You may want to navigate along through the file system while reading this discussion.</P>
+
+<P>Figure 2 depicts the directories relevant to our tour of Midiki’s code.</P>
+
+<P>Inside the main <FONT FACE="Courier New" SIZE=2>midiki</FONT> directory, we’ll concentrate on the <FONT FACE="Courier New" SIZE=2>src</FONT> (source) directory.  </P>
+
+<P>Midiki is written in Java, and the <FONT FACE="Courier New" SIZE=2>java</FONT> subdirectory is where our tour will continue.</P>
+
+<P>The next two sub-directories to visit, <FONT FACE="Courier New" SIZE=2>org</FONT> and <FONT FACE="Courier New" SIZE=2>mitre</FONT> respectively, simply reflect java directory naming conventions for code written by &quot;mitre.org&quot;.</P>
+
+<P>Figure 2.  Directories relevant to a tour of Midiki’s code</P>
+
+<FONT FACE="Courier New" SIZE=2><P>midiki</P>
+<P>&#9;src</P>
+<P>&#9;&#9;java</P>
+<P>&#9;&#9;&#9;org</P>
+<P>&#9;&#9;&#9;&#9;mitre</P>
+<P>&#9;&#9;&#9;&#9;&#9;midiki </P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;agent</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;state</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;logic</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;tools</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;impl</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;mitre</P>
+<P>&#9;&#9;&#9;&#9;&#9;dm </P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;qud</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;rules</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;conditions</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;tools</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;domains</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;travel</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;diagnosis</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;irs</P>
+
+</FONT><P>Now that we’re in the <FONT FACE="Courier New" SIZE=2>mitre</FONT> directory, our real tour begins.</P>
+
+<P>There are two subdirectories in the <FONT FACE="Courier New" SIZE=2>mitre</FONT> directory: <FONT FACE="Courier New" SIZE=2>midiki</FONT> and <FONT FACE="Courier New" SIZE=2>dm</FONT>.</P>
+
+<P>Users typically won’t be modifying anything in the <FONT FACE="Courier New" SIZE=2>midiki</FONT> subdirectory.  This directory contains, first of all, the API (Application Programmer Interface) for constructing and managing an Information State.  These interfaces are found inside the <FONT FACE="Courier New" SIZE=2>agent</FONT>, <FONT FACE="Courier New" SIZE=2>logic</FONT>, and <FONT FACE="Courier New" SIZE=2>state</FONT> directories.  The <FONT FACE="Courier New" SIZE=2>tools</FONT> directory contains utilities.  Lastly, whereas the other directories contain the interface for constructing an Information State, the <FONT FACE="Courier New" SIZE=2>impl</FONT> directory contains actual implementations of an Information State.  There’s only one implementation to date, that written by MITRE (as used in Midiki)—hence another <FONT FACE="Courier New" SIZE=2>mitre</FONT> subdirectory here.  In here you’ll find the actual code for the Midiki toolkit.</P>
+
+<P>Looking back at Figure 2, let’s go back up to the other main subdirectory shown: the <FONT FACE="Courier New" SIZE=2>dm</FONT> directory.  Whereas its sibling directory, <FONT FACE="Courier New" SIZE=2>midiki</FONT>, contains the specification and implementation for Midiki, the <FONT FACE="Courier New" SIZE=2>dm</FONT> directory is the place for actual dialogue managers constructed with the Midiki toolkit.</P>
+
+<P>Inside <FONT FACE="Courier New" SIZE=2>dm</FONT>, the subdirectory of most interest to us is the <FONT FACE="Courier New" SIZE=2>qud</FONT> directory.  This stands for Questions Under Discussion, a theory of dialogue, and in here are dialogue managers built with this theory.  Underneath <FONT FACE="Courier New" SIZE=2>qud</FONT> are found most of the files someone learning Midiki will be working with.</P>
+
+<P>There are several java files in the <FONT FACE="Courier New" SIZE=2>qud</FONT> directory.  Most of these implement agents used in a dialogue system infrastructure.  Some of these, such as <FONT FACE="Courier New" SIZE=2>InterpretAgent.java</FONT>, <FONT FACE="Courier New" SIZE=2>GenerateAgent.java</FONT>, and <FONT FACE="Courier New" SIZE=2>IOAgent.java</FONT>, are simple agents used to test Midiki, but are not full-fledged dialogue system components (see Chapter 5 for more discussion).</P>
+
+<P>The files having to do with the Midiki dialogue manager per se include <FONT FACE="Courier New" SIZE=2>ISControlAgent.java</FONT> and <FONT FACE="Courier New" SIZE=2>DMEAgent.java</FONT>, which implement the Dialogue Move Engine.  The latter contains the overall algorithm for updating the information state and selecting the next system move.</P>
+
+<P>The remaining files in the <FONT FACE="Courier New" SIZE=2>qud</FONT> directory handle logging. </P>
+
+<P>There are also three subdirectories inside the <FONT FACE="Courier New" SIZE=2>qud</FONT> directory: <FONT FACE="Courier New" SIZE=2>conditions</FONT>, <FONT FACE="Courier New" SIZE=2>rules</FONT>, and <FONT FACE="Courier New" SIZE=2>domain</FONT>.  These directories contain the files dialogue designers will typically modify.</P>
+
+<P>The <FONT FACE="Courier New" SIZE=2>conditions</FONT> directory contains java classes to test conditions which can be used in rules.  For instance, the file <FONT FACE="Courier New" SIZE=2>AgendaIsEmpty.java</FONT> has code which can be used to test whether the current agenda is empty:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>public class AgendaIsEmpty extends Condition</P>
+<P>{</P>
+<P>    public boolean test(ImmutableInfoState infoState,</P>
+<P>                        Bindings bindings)</P>
+<P>    {</P>
+<P>        Object agenda = </P>
+<P>            infoState.cell("is").cell("private").get("agenda");</P>
+<P>        if (agenda == null) return false;</P>
+<P>        if (!(agenda instanceof List)) return false;</P>
+<P>        return ((List)agenda).isEmpty();</P>
+<P>    }</P>
+<P>}</P>
+</FONT></DIR>
+
+<P>As can be seen, this class has a <FONT FACE="Courier New" SIZE=2>test</FONT> method.  The first line of this method declares an <FONT FACE="Courier New" SIZE=2>agenda</FONT> object, which is set to part of the Information State.  Specifically, we first look at the overall cell for the Information State: <FONT FACE="Courier New" SIZE=2>is</FONT>.  A part of that is a <FONT FACE="Courier New" SIZE=2>private</FONT> cell, containing private information.  Inside that is a <FONT FACE="Courier New" SIZE=2>get</FONT> method which returns its agenda.  (Other Midiki code will have an analogous <FONT FACE="Courier New" SIZE=2>put</FONT> method).  The agenda is then tested for the null case, as well as for the case that it’s not a list.</P>
+
+<P>As you can see, in the <FONT FACE="Courier New" SIZE=2>conditions</FONT> directory there are a variety of other conditions available to use.  </P>
+
+<P>The <FONT FACE="Courier New" SIZE=2>rules</FONT> directory contains java classes with rules used by our sample DME for dialogue management.  Most rules perform <I>updates</I> (updating the IS).  One rule performs a <I>select</I> (selecting the next system move).  Table 1 lists the rules’ class names (which reflect the file names).</P>
+
+<P>Table 1.  Rules used in sample Midiki DME.</P>
+
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<P ALIGN="CENTER">Class (file name)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P ALIGN="CENTER">Description</P>
+<P ALIGN="CENTER"></TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>Grounding</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Assess the incoming moves, in support of uncertainty and confirmation strategies. The current strategy assumes a perfect communication channel (naive).</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>Integrate</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Apply an executed move to the information state, i.e. <I>integrate</I> the effects of the move with the IS.  Until a move is integrated, it is still considered tentative; it could be interrupted or no longer needed.   An integrated move is finished.  User input which applies to the current system action and is successfully grounded is integrated.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>Accommodate</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>User input which does not apply to the current system action might be <I>accommodated</I>; i.e., the system might identify one or more alternate discourse elements that the input is appropriate for. This class contains the rules used to make that assessment.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>ManagePlan</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Keep the current plan up to date, monitoring execution and advancing as necessary.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>RefillAgenda</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Ensure that the system always has intent (something to do next).</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>DowndateAgenda</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Clear out stale and no-longer-needed actions from the system agenda.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>DowndateQUD</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Clear out stale and no-longer-needed questions/topics.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>RemoveAccomplishedTask</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Identify when a task/plan is complete.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>Store</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Store the current discourse state in case we need to recover it later.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>StoreNIM</P>
+</FONT><P>(update)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Store a &quot;Non-Integrated Move&quot;: a current move which was neither integrated nor accommodated, but which might be relevant in future context.</TD>
+</TR>
+<TR><TD WIDTH="28%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>Select</P>
+</FONT><P>(select)</TD>
+<TD WIDTH="72%" VALIGN="TOP">
+<P>Evaluate the current information state and decide on the next move or moves to output.</TD>
+</TR>
+</TABLE>
+
+
+<P>As an example update rule, let’s look at grounding (<FONT FACE="Courier New" SIZE=2>Grounding.java</FONT>).  This rule, like many others in Midiki, is adopted directly from TRINDIKIT (or rather, from the GoDiS (Gothenburg Dialogue System) implementation of TRINDIKIT, using the Questions Under Discussion theory).  We therefore refer you to the references mentioned in Chapter 1 to understand the concepts behind the rule.</P>
+
+<P>Part of the <FONT FACE="Courier New" SIZE=2>Grounding</FONT> rule looks like:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>public class Grounding extends RuleSet</P>
+<P>{</P>
+<P>    // code deleted from example</P>
+
+<P>    public Grounding()</P>
+<P>    {</P>
+<P>        super();</P>
+<P>        Condition assumeSysMovesGroundedC =</P>
+<P>            new Condition(){</P>
+<P>                public boolean test(ImmutableInfoState iis,</P>
+<P>                                        Bindings b) {</P>
+<P>                    Object ls = <BR>
+                        iis.cell("is").get("latest_speaker");</P>
+<P>                    boolean success = <BR>
+                        iis.getUnifier().matchTerms(ls, "sys", b);</P>
+<P>                    // logging code deleted from example</P>
+<P>                    return success;</P>
+<P>                }</P>
+<P>            };</P>
+<P>        ExistsRule assumeSysMovesGrounded =</P>
+<P>            new ExistsRule(assumeSysMovesGroundedC){</P>
+<P>                public boolean execute(InfoState infoState, <BR>
+                                           Bindings b) {<BR>
+                    infoState.cell("is").cell("shared").<BR>
+                        cell("lu").put("speaker", "sys");</P>
+<P>                    infoState.cell("is").cell("shared").<BR>
+                        cell("lu").put("moves",null);</P>
+
+<P>                    LinkedList assocs = recAddAllAssoc<BR>
+                        (infoState.cell("is").get("latest_moves"),<BR>
+                         new Boolean(false));</P>
+<P>                    infoState.cell("is").cell("shared").<BR>
+                        cell("lu").put("moves",assocs);</P>
+<P>                    return true;</P>
+<P>                }</P>
+<P>            };</P>
+
+<P>        // code deleted from example</P>
+<P>    }</P>
+<P>}</P>
+</FONT>
+<P>This code fragment is divided into two parts.  First, there’s a condition, called <FONT FACE="Courier New" SIZE=2>assumeSysMovesGroundedC</FONT> (&quot;assume-system-moves-grounded-condition&quot;).  Second, there’s a rule, with the similar name <FONT FACE="Courier New" SIZE=2>assumeSysMovesGrounded</FONT>.  This rule takes as a parameter the condition just above.  In Midiki, this means that if the condition is met, the rule is fired.</P>
+
+<P>Getting back to the condition: there is an object <FONT FACE="Courier New" SIZE=2>ls</FONT>, for &quot;latest speaker&quot;, which is set from the <FONT FACE="Courier New" SIZE=2>latest_speaker</FONT> attribute in the immutable (read-only) information state <FONT FACE="Courier New" SIZE=2>iis</FONT>.  If this attribute unifies or matches with <FONT FACE="Courier New" SIZE=2>sys</FONT> (&quot;system&quot;), then the condition succeeds.  This condition, then, merely checks if the latest speaker was the system.</P>
+
+<P>Now for the rule.  Look at the line</P>
+<FONT FACE="Courier New" SIZE=2><P>  infoState.cell("is").cell("shared").cell("lu").put("speaker", "sys");</P>
+</FONT><P>This means that into the Information State <FONT FACE="Courier New" SIZE=2>is</FONT>, and specifically into the <FONT FACE="Courier New" SIZE=2>shared</FONT> part, and more specifically into the <FONT FACE="Courier New" SIZE=2>lu</FONT> (&quot;latest utterance&quot;) part, the rule sets the value of the attribute <FONT FACE="Courier New" SIZE=2>speaker</FONT> to be <FONT FACE="Courier New" SIZE=2>sys</FONT>.  </P>
+
+<P>In the next line, the rule sets the attribute <FONT FACE="Courier New" SIZE=2>moves</FONT> to be null.  &quot;Moves&quot; refers to the system’s moves.  As the system has just made an utterance and hence a move, the rule keeps things neat by cleaning out the system’s <FONT FACE="Courier New" SIZE=2>moves</FONT> attribute</P>
+
+<P>The subsequent line deals with the notion of <I>integrating</I> a move into the information state.  The move has been put out to the dialogue partner, but the rule’s designer does not yet want the move integrated into the IS.  Therefore, the latest move will be given an association with the Boolean <FONT FACE="Courier New" SIZE=2>false</FONT>, meaning &quot;not integrated&quot;.  More accurately, a multiple of recent moves can be given this association; hence the linked list of associations.  In general, Midiki uses linked list as a convenient data structure for holding collections of objects.</P>
+
+<P>In the line after that, the afore-mentioned associations are put into the Information State.  Specifically, in the &quot;latest utterance&quot; part of the IS, the attribute <FONT FACE="Courier New" SIZE=2>moves</FONT> is filled with the associations <FONT FACE="Courier New" SIZE=2>assocs</FONT>. </P>
+
+<P> Finally, the last line of the rule returns <FONT FACE="Courier New" SIZE=2>true</FONT>.  Rules return <FONT FACE="Courier New" SIZE=2>true</FONT> if they succeed, while conditions and queries return <FONT FACE="Courier New" SIZE=2>true</FONT> or <FONT FACE="Courier New" SIZE=2>false</FONT> depending on the logical answer they’re returning.</P>
+
+<P>The rule we’ve just described is probably not transparent at first sight to Midiki newcomers.  We urge you to take heart, for several reasons.</P>
+
+<P>First of all, as mentioned, certain concepts are adopted directly from TRINDIKIT, and an understanding of that system will help in understanding Midiki’s rules.  For instance, the above rule marked moves as &quot;not integrated&quot; by associating them with <FONT FACE="Courier New" SIZE=2>false</FONT> .  This convention is covered in Traum et al. (1999), Chapter 4.</P>
+
+<P>In addition, we’ve presented this rule out of its context within other interacting rules and the Information State itself.  Once a designer is familiar with the contents of the Information State and how all the rules operate on that, things make more sense.  At that point, there remains only to understand the rule syntax and semantics.</P>
+
+<P>Finally, the rule syntax and semantics are not as compact and readable as they might be were Midiki to use a specialized, high-level scripting language.  We wanted to avoid this for a variety of reasons.  First, this would require the user to learn a new language.  Second, scripting languages add a layer of complexity for debugging.  Third, newly-designed languages, however well motivated, are rarely as consistent and robust as existing languages.  Therefore, Midiki rules are constructed of Java method calls, with the unavoidable overhead of Java syntax.</P>
+
+<P>Let’s now look at another rule—the only <I>select</I> rule: <FONT FACE="Courier New" SIZE=2>Select.java</FONT>.  This class has a variety of code blocks corresponding to different possible system moves.  As an example, the code block which asks the use to repeat the input (a &quot;RequestRepetition&quot;) looks like this:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>    /*</P>
+<P>     * System could not interpret user's latest move</P>
+<P>     */</P>
+<P>    Condition selectReqRepUnderstandingC = new Condition();</P>
+<P>    selectReqRepUnderstandingC.extend(new InputNotEmpty());</P>
+<P>    selectReqRepUnderstandingC.extend(new LatestMoveFailed());</P>
+
+<P>    ExistsRule selectReqRepUnderstanding =</P>
+<P>        new ExistsRule(selectReqRepUnderstandingC){</P>
+<P>                public boolean execute(InfoState infoState,<BR>
+                                       Bindings bindings) {</P>
+<P>                    LinkedList next_moves = new LinkedList();</P>
+<P>                    next_moves.add(reqRep_und);</P>
+<P>                    infoState.cell("is").put("next_moves", next_moves);</P>
+<P>                    return true;</P>
+<P>                }</P>
+<P>            };</P>
+</FONT>
+<P>As before, the rule has a condition at the top, followed by a rule.  The condition is <FONT FACE="Courier New" SIZE=2>selectReqRepUnderstandingC</FONT>.  It actually is extended with two conditional tests: <FONT FACE="Courier New" SIZE=2>InputNotEmpty </FONT>and<FONT FACE="Courier New" SIZE=2> LatestMoveFailed</FONT>.  This means that both conditions must be met for the subsequent rule to be fired.  <FONT FACE="Courier New" SIZE=2>InputNotEmpty</FONT> means that there was indeed input from the user, while <FONT FACE="Courier New" SIZE=2>LatestMoveFailed</FONT> means that the system was unable to parse the user’s input.</P>
+
+<P>Hence, the system requests the user to repeat, as seen in the subsequent rule <FONT FACE="Courier New" SIZE=2>selectReqRepUnderstanding</FONT>.  Here, we create a <FONT FACE="Courier New" SIZE=2>next_moves</FONT> list, add the value <FONT FACE="Courier New" SIZE=2>reqRep_und</FONT> to it, and put it into the <FONT FACE="Courier New" SIZE=2>next_moves</FONT> part of the Information State.</P>
+
+<P>Again, this rule is patterned after a TRINDIKIT implementation, and we refer you back to that documentation for more details of the underlying concepts.</P>
+
+<P>As the last stop on our tour of Midiki, let’s look in the <FONT FACE="Courier New" SIZE=2>domain</FONT> directory, still within the <FONT FACE="Courier New" SIZE=2>qud</FONT> directory.</P>
+
+<P>In the <FONT FACE="Courier New" SIZE=2>domain</FONT> directory, you’ll notice a number of Java files.  These files have to do with implementing an arbitrary domain.  Files for implementing specific domains can be found in subdirectories within the <FONT FACE="Courier New" SIZE=2>domain</FONT> directory.  In fact, you’ll find a directory for each domain for which Midiki has been tailored.  There are currently three.</P>
+
+<P>The <FONT FACE="Courier New" SIZE=2>travel</FONT> domain was Midiki’s first instantiation, and was patterned after the GoDiS  implementation of TRINDIKIT.  The <FONT FACE="Courier New" SIZE=3>diagnosis</FONT> domain was developed for a rapid-porting exercise soon after Midiki was created, and handles diagnosing infectious diseases.  Finally, the <FONT FACE="Courier New" SIZE=2>irs</FONT> domain was devised for this user’s manual, to serve an illustrative purpose in describing how to modify Midiki.  Therefore, we’ll now focus on the directory <FONT FACE="Courier New" SIZE=2>irs</FONT>, which stands for &quot;Internal Revenue Service&quot; (the United States’ tax authority).</P>
+
+<P>In the <FONT FACE="Courier New" SIZE=2>irs</FONT> directory are four files.  The first three have to do with running a full dialogue system using this domain, and will not be discussed in detail here.  <FONT FACE="Courier New" SIZE=2>DME.java</FONT> simply lists the agents used in the dialogue system running this domain.  <FONT FACE="Courier New" SIZE=2>DomainAgent.java</FONT> handles making this domain resource an agent in the dialogue system.  <FONT FACE="Courier New" SIZE=2>EnglishLexicon.java</FONT> matches user input strings to system inputs, and system outputs to user output strings.  See Chapter 5 for more details on using Midiki in a full dialogue system.</P>
+
+<P>The final and most important file in the <FONT FACE="Courier New" SIZE=2>irs</FONT> directory is <FONT FACE="Courier New" SIZE=2>Domain.java</FONT>.  This is a relatively long file, with several sections.  In the beginning is a section which defines attributes and values in this domain.  For instance, the code:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>ArrayList val = new ArrayList();</P>
+<P>val.add("child_tax_credits");</P>
+<P>val.add("household_employer_taxes");</P>
+<P>val.add("individual_tax_return");</P>
+<P>val.add("wage_and_tax_statement");</P>
+<P>val.add("withholding_allowance_certificate");</P>
+<P>val.add("refund_status");</P>
+<P>val.add("filing_date");</P>
+<P>val.add("none");</P>
+<P>val.add("abandon_call");</P>
+<P>attributeMap.put("topic", val);</P>
+</FONT></DIR>
+
+<P>defines an attribute <FONT FACE="Courier New" SIZE=2>topic</FONT>, and defines nine values for that attribute.  These values have to do with topics users might talk about in our sample tax-authority telephone help line (which we’ll describe in more detail in the following chapter). </P>
+
+<P>Another similar of code defines values for the attribute <FONT FACE="Courier New" SIZE=2>publication</FONT>.  One choice users have in our sample domain is to ask the system to mail them hardcopy tax publications.</P>
+
+<P>Later in <FONT FACE="Courier New" SIZE=2>Domain.java</FONT>, there is a section in which contracts are defined.  For example, to handle the task of sending hardcopy publications, there is a contract <FONT FACE="Courier New" SIZE=2>send_publication</FONT>:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>&nbsp;</P><DIR>
+
+<P>protected static Contract taskSendPublication()</P>
+<P>{</P>
+<P>    ContractImpl top = new ContractImpl("send_publication");</P>
+<P>    top.addAttribute(new AttributeImpl("topic", "topic", null));</P>
+<P>    top.addAttribute(new AttributeImpl("address_valid", "yesno", <BR>
+                                                           null));</P>
+<P>    top.addAttribute(new AttributeImpl("ssn", null, null));</P>
+<P>    top.addAttribute(new AttributeImpl("publication", null, null));</P>
+<P>    top.addAttribute(new AttributeImpl("address", null, null));</P>
+<P>    return top;</P>
+<P>}</P>
+</FONT></DIR>
+
+<P>This contract contains the attributes of: <FONT FACE="Courier New" SIZE=2>topic</FONT> (to know the topic), <FONT FACE="Courier New" SIZE=2>address_valid</FONT> (to know if the user’s address on file is valid), <FONT FACE="Courier New" SIZE=2>ssn</FONT> (the user’s Social Security Number), <FONT FACE="Courier New" SIZE=2>publication</FONT> (the specification publication to send), and <FONT FACE="Courier New" SIZE=2>address</FONT> (the user’s address).</P>
+
+<P>Towards the end of <FONT FACE="Courier New" SIZE=2>Domain.java</FONT>, there is a section which builds the plan for sending a publication:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>protected Contract initializeSendPublicationTask()</P>
+<P>{</P>
+<P>    Contract top = taskSendPublication();</P>
+<P>    Plan topPlan = new Plan(top);</P>
+
+<P>    /*</P>
+<P>     * find out the topic</P>
+<P>     * find out if caller's last address is valid</P>
+<P>     * find out caller's SSN</P>
+<P>     * get_publication(topic(X), pub(Y))</P>
+<P>     * send_publication(pub(Y), address(Z))</P>
+<P>     */</P>
+<P>    topPlan.addFindout("topic");</P>
+<P>    topPlan.addFindout("address_valid");</P>
+
+<P>    Plan addressYes = new Plan(top);</P>
+<P>    Plan addressNo = new Plan(top);</P>
+<P>    addressYes.addFindout("ssn");</P>
+<P>    addressYes.addQueryCall("system","lookup_address");</P>
+<P>    addressYes.addQueryCall("system","lookup_publication");</P>
+<P>    addressYes.addMethodCall("system","send_publication");</P>
+<P>    addressYes.addInform(new Predicate("sending",</P>
+<P>                                        new LinkedList()));</P>
+
+<P>    // address changed or no prior return; transfer call</P>
+<P>    addressNo.addMethodCall("system","transfer_call");</P>
+<P>    addressNo.addMove("forget", true);</P>
+<P>    addressNo.addMove("reset", true);</P>
+
+<P>    topPlan.addIfThenElse("address_valid","yes",addressYes,<BR>
+                                                addressNo);</P>
+
+<P>    taskMap.put("send_publication", topPlan);</P>
+<P>    keyMap.put("send_publication", ("send_publication"));</P>
+<P>    return top;</P>
+<P>}</P>
+</DIR>
+
+</FONT><P>This code first adds to the plan a <I>findout</I> strategy of finding out the requested topic.  Then it adds the <I>findout</I> strategy of finding out whether the user’s address on file is still valid.</P>
+
+<P>If the answer is yes, the plan will <I>findout</I> the user’s Social Security Number (SSN), and use that to look up the address, via a <I>query</I>.  It will then look up (via another query) the appropriate publication, send it (via a <I>method</I>), and inform the user (via an <I>inform</I> strategy).</P>
+
+<P>If the answer is no (i.e. the user’s address on file is not valid), then the system will transfer the call to a human (via a method).  (The following chapter discusses the domain reasoning behind this).</P>
+
+<P>This ends our tour of Midiki and its file structure.  The example code shown so far will make more sense in the light of the following chapter, which will explain more about domains, and how to modify Midiki’s code for a new domain.</P>
+<B><FONT FACE="Arial" SIZE=5><P>&nbsp;</P>
+<P><A NAME="_Toc85967394">4&#9;Configuring Midiki for differing dialogue styles and&#9;domains</A></P>
+</B></FONT><P>This chapter describes how to configure Midiki for a new dialogue style and domain.  </P>
+
+<P>As mentioned in the introductory chapter, it is essential that anyone planning to work with Midiki be familiar with Information State theory.  See Chapter 1 for references to papers describing that theory.</P>
+
+<P>We’ll illustrate our description of configuring Midiki by walking through an example.  Our example will be a dialogue manager for a telephone customer helpline for the US Internal Revenue Service (IRS), the United States’ tax authority.</P>
+
+<P>In this chapter, we’ll first cover some general questions a dialogue designer might pose before configuring a DM.  Then, in the subsequent three sections, we’ll discuss domain engineering for our toy example, writing plans for this domain, and extending the baseline Midiki to handle some aspects of these plans.</P>
+<B><I><FONT FACE="Arial" SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967395">4.1&#9;Initial Questions</A></P>
+</B></I></FONT><P>Before configuring a dialogue manager, a dialogue designer has to decide a number of things.</P>
+
+<UL>
+<LI>What sort of style will the dialogue be?  Will it be a simple system-directed questioning session, with the user providing constrained answers?  Will it permit more complex, mixed-initiative interactions?  Will it be multi-modal?</LI></UL>
+
+
+
+<UL>
+<LI>What theory framework does the dialogue designer wish to use?  Discourse Representation Theory (DRT)?  Conversational Game Theory (CGT)?  Questions Under Discussion (QUD)?  Another theory?</LI></UL>
+
+
+
+<UL>
+<LI>Will the dialogue manager be following some sort of plan or agenda?  What does that look like?</LI></UL>
+
+
+
+<UL>
+<LI>What features of dialogue will the DM handle?  Accommodation of unexpected information or questions?  Grounding of information presented, either implicitly or explicitly?  What is the list of expected or allowable dialogue moves?</LI></UL>
+
+
+
+<UL>
+<LI>What domain will the dialogue cover?  How is the domain information represented?  Is it in a static database?  In a dynamic on-line resource such as the web?</LI></UL>
+
+
+
+<UL>
+<LI>Much of the above will be controlled in a DM by rules.  What is the control strategy for deciding how and when to apply those rules?</LI></UL>
+
+
+
+<UL>
+<LI>Finally, the above control strategy is DM-internal, and is different than a control strategy for invoking dialogue <I>system</I> modules, such as speech recognition or database consultation.  That larger, &quot;traffic cop&quot; control strategy may also be directed by a DM, or it may not.  What will be the case in your dialogue system?</LI></UL>
+
+
+<P>&nbsp;</P>
+<P>Here are brief answers to the above questions for our example IRS helpline DM.</P>
+<FONT FACE="Courier New" SIZE=2>
+
+<UL>
+</FONT><LI>The style is mixed-initiative, give-and-take, allowing either party to ask follow-up questions.  Customer questions might be:</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>How much was my child tax credit?</P>
+<P>How do I pay employer taxes for domestic help?</P>
+<P>Where’s my refund?</P>
+<P>How much shall I withhold on my W-4?</P></DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>The theory framework is Ginzburg’s (1996) Questions Under Discussion (QUD).</LI></UL>
+
+
+
+<UL>
+<LI>The example will use plans and agendas.  We’ll discuss details of these later, but the DM’s overall plan is to converse with the customer to narrow down the topic, and then do one of the following:</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Transfer the customer to a human customer service representative, based on the topic</P>
+<P>Cause hardcopy publications to be sent to the customer, based on the topic</P>
+<P>Provide simple information over the phone, either:</P><DIR>
+
+<P>General: (e.g. due date for filing extensions)</P>
+<P>Personal: (e.g. how much the customer received in their child-tax-credit check last year)</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>Supported dialogue features will include accommodation and grounding (both implicit and explicit).</LI></UL>
+
+
+
+<UL>
+<LI>The domain will be tax assistance.  More specifically, the system knows about the following  topics:</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Child tax credits</P>
+<P>Household employer taxes</P>
+<P>Due dates for filing</P>
+<P>Requesting and mailing publications</P>
+<P>For personal accounts (based on Social Security Number (SSN)):</P><DIR>
+
+<P>Amount owed or refunded from last filing</P>
+<P>Status of recent or pending payments or refunds</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>In addition, the system knows about the following hardcopy publications:</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Publication 1040: US Individual Income Tax Return</P>
+<P>Publication 972: Child Tax Credit</P>
+<P>Publication 926: Household Employer’s Tax Guide</P>
+<P>Publication W-2: Wage and Tax Statement</P>
+<P>Publication W-4: Employee’s Withholding Allowance Certificate       </P></DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>The above domain information will be stored, for this simple example, in a Java file tailored for this domain (<FONT FACE="Courier New" SIZE=2>Domain.java</FONT>, discussed in the previous chapter).</LI></UL>
+
+
+
+<UL>
+<LI>The control strategy for deciding when and how to apply DM rules is laid out in <FONT FACE="Courier New" SIZE=2>DMEAgent.java,</FONT> in the <FONT FACE="Courier New" SIZE=2>qud</FONT> directory.  (Note: Users adapting Midiki to a new domain need  not modify that file; i.e. they can leave the control strategy as is).</LI></UL>
+
+
+
+<UL>
+<LI>The larger &quot;traffic cop&quot; control strategy, for invoking dialogue system modules, is assumed to handled by another module, not Midiki.  This traffic-cop module will invoke Midiki as needed.  More discussion of this can be found in Chapter 5.</LI></UL>
+
+<B><I><FONT FACE="Arial" SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967396">4.2&#9;Domain Engineering</A></P>
+</I></FONT><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967397">4.2.1&#9;Domains in Midiki</A></P>
+</B></FONT>
+<P>As discussed, a ‘domain’ in Midiki is a resource that describes different entities, their attributes, permissible values for those attributes (within some limits), and plans for talking about those entities in the pursuit of some system task.</P>
+
+<P>During the course of dialogue processing, the domain will be asked to determine the relevance of user input to the entities and plans, to fetch new plans when needed, and to monitor plan execution.</P>
+
+<P>The default style of domain provided with Midiki, which we are using for this example, does very limited reasoning. All it can do is identify tasks which are relevant to a given piece of user input, by pure unification with contract attributes and string matching of attribute values.</P>
+
+<P>One can certainly envision more sophisticated domains that include rulebases, perhaps fed by ontology descriptions in some standard representation, but the default domain implementation is not that complex.</P>
+<B><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967398">4.2.2&#9;Example domain</A></P>
+</B></FONT><P>Our demo system is intended to handle a small set of operations related to income taxes. Specifically, we want the system to:</P>
+
+
+<UL>
+<LI>give general information on the phone, given a topic,</LI>
+<LI>give personal information on the phone, given a topic and any other required data,</LI>
+<LI>send a hardcopy publication to the customer, given a related topic,</LI>
+<LI>transfer the call to a representative for all other requests.</LI></UL>
+
+<P>If we were to consider these operations as methods on an object, we might have:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>class System {&#9;&#9;&#9;&#9;// this is pseudo-code</P>
+<P>&#9;general_info(topic(X))</P>
+<P>&#9;specific_info(topic(X),Y)&#9;// Y is additional required data</P>
+<P>&#9;send_publication(topic(X),Z)&#9;// Z is address information</P>
+<P>&#9;transfer_call()</P>
+<P>}</P></DIR>
+
+</FONT><P>We might need to add detail, calling out different methods for each particular type of information or publication, but let’s start with this.</P>
+
+<P>The above pseudo-code makes use of topics.  What kind of topics do we want the system to address?  We’ll choose a small subset, which we can represent pretty simply as enumerated values:</P>
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>topic(child_tax_credits)</LI>
+<LI>topic(household_employer_taxes)</LI>
+<LI>topic(individual_tax_return)</LI>
+<LI>topic(wage_and_tax_statement)</LI>
+<LI>topic(withholding_allowance_certificate)</LI>
+<LI>topic(status_of_refund)</LI>
+<LI>topic(filing_date)</LI></UL>
+
+</FONT><P>We may want to add some meta-topics to this list, which apply to the overall conversation. For example:</P>
+
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>topic(none)</FONT>, if we explicitly asked the caller to select from a list of options and she declined all of them</LI>
+<FONT FACE="Courier New" SIZE=2><LI>topic(abandon_call)</FONT>, if we can identify that the user wants to end the call</LI></UL>
+
+<P>Not all of these topics are going to be meaningful for each of the system operations. We can summarize the reasonable actions in Table 2.</P>
+<P>Table 2. &quot;Topic-Action Table&quot;, mapping topics to possible system actions.</P>
+
+<TABLE CELLSPACING=0 BORDER=0 CELLPADDING=2 WIDTH=590>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">System can give general info</P>
+<P ALIGN="CENTER"></FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">System can give specific info</FONT></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">System can send publication #</FONT></TD>
+</TR>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Courier New" SIZE=2><P>topic(child_tax_credits)</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">972</FONT></TD>
+</TR>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Courier New" SIZE=2><P>topic(household_employer_taxes)</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">926</FONT></TD>
+</TR>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Courier New" SIZE=2><P>topic(individual_tax_return)</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">1040</FONT></TD>
+</TR>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Courier New" SIZE=2><P>topic(wage_and_tax_statement)</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">W-2</FONT></TD>
+</TR>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Courier New" SIZE=2><P>topic(withholding_allowance_certificate)</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">W-4</FONT></TD>
+</TR>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Courier New" SIZE=2><P>topic(status_of_refund)</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+</TR>
+<TR><TD WIDTH="55%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Courier New" SIZE=2><P>topic(filing_date)</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16>
+<FONT SIZE=3><P ALIGN="CENTER">x</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=16><P></P></TD>
+</TR>
+</TABLE>
+
+
+<P>For <I>general</I> information requests, the system can provide a short description of the topic (or, in the case of <FONT FACE="Courier New" SIZE=2>filing_date</FONT>, provide an answer).  For <I>specific</I> information requests, sub-dialogues will be required to obtain the task-specific data.  And for <I>publications</I>, a specific publication number has been identified, and an additional sub-dialogue will be required to obtain the caller’s address.</P>
+<B><FONT SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967399">4.2.2.1&#9;Obtaining the caller’s address</A></P>
+</B></FONT><P>As a practical issue, taking an address through a speech interface is problematic. There are too many possible individual names, street addresses and town names to expect a high level of performance. However, we could reasonably expect to input a Social Security Number and look up the last known address for that number on file. In pseudo-code, that operation might look like:</P><DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>lookup_address(ssn(Y),address(Z))</P>
+<P>send_publication(topic(X), address(Z))</P></DIR>
+
+</FONT><P>We can consider the address valid if the caller filed a return and is still at that address. Privacy concerns would prohibit reading back the address to the caller, but we can at least ask if the caller is still at the address they last filed from.</P>
+<B><FONT SIZE=4><P><A NAME="_Toc85967400">4.2.2.2&#9;Obtaining data for specific information seeking tasks</A></P>
+</B></FONT>
+<P>4.2.2.2.1&#9;Obtaining child tax credits</P>
+<P>In order for a caller to get the amount of their advance child tax credit for the previous year, they need to provide the following pieces of information:</P>
+
+<UL>
+<LI>SSN</LI>
+<LI>filing status (single, married filing jointly, married filing separately, head of household, qualifying widower)</LI>
+<LI>number of exemptions claimed</LI></UL>
+
+<P>The system must be able to look up that information, or calculate it, so we need another system operation:</P><DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>lookup_ctc(ssn(X),filing_status(Y),exemptions(Z),ctc(CTC))</P></DIR>
+
+</FONT><P>which can provide information for the specific information-seeking task:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>specific_info(topic(child_tax_credits),ctc(CTC))</P>
+</FONT></DIR>
+
+<P>4.2.2.2.2&#9;Obtaining status of refund</P>
+<P>In order for a caller to get the status of their refund, they need to provide the following pieces of information:</P>
+
+<UL>
+<LI>SSN</LI>
+<LI>filing status (single, married filing jointly, married filing separately, head of household, qualifying widower)</LI>
+<LI>exact amount of refund</LI></UL>
+
+<P>The system must be able to look up that information, or calculate it, so we need another system operation:</P><DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>lookup_refund_status</P>
+<P>(ssn(X),filing_status(Y),refund_amt(Z),refund_status(S))</P></DIR>
+
+</FONT><P>which can provide information for the specific information-seeking task:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>specific_info(topic(status_of_refund),refund_status(S))</P></DIR>
+
+</FONT><B><FONT SIZE=4><P><A NAME="_Toc85967401">4.2.2.3&#9;Conversation tracking</A></P>
+</B></FONT>
+<P>In accordance with the topic-action table (Table 2), we expect each interaction with the system to have two elements: a topic, and a desired system action. We should explicitly include this in our domain, so we can operate on them directly.</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>class Conversation {</P>
+<P>&#9;attribute topic(X)</P>
+<P>&#9;attribute action(Y)</P>
+<P>&#9;do_action(topic(X), action(Y))</P>
+<P>&#9;// plus additional items as desired</P>
+<P>}</P>
+</FONT><B><I><FONT FACE="Arial" SIZE=4><P>&nbsp;</P></DIR>
+
+<P><A NAME="_Toc85967402">4.3&#9;Fleshing out the domain with plans</A></P>
+</I></FONT><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967403">4.3.1&#9;Plans in Midiki</A></P>
+</B></FONT>
+<P>As discussed, a plan in Midiki is a structured collection of strategies designed to accomplish a single task. Plans describe typical, even stereotypical, interactions between the system and the user. Individual conversational strategies can be further broken down into individual dialogue moves. By default, Midiki only considers a very short list of dialogue moves, but this can be extended if desirable or necessary for implementing a particular theory.</P>
+
+<P>Plans are expected to have a strong relationship to an element of the domain.</P>
+<OL>
+<OL>
+<OL>
+<OL>
+
+<LI><A NAME="_Toc85967404"><B><FONT SIZE=4>Dialogue moves</A></LI></OL>
+</OL>
+</OL>
+</OL>
+
+</B></FONT><P>A dialogue move in Midiki is a logic predicate that represents the information content and communicative intent of an utterance or portion of an utterance. Therefore, it is a concept that is influenced by the theory of dialogue implemented in a particular dialogue manager. Also, the set of dialogue moves includes a few moves which have no explicit linguistic component. These non-linguistic moves reflect system actions taken as part of the dialogue which affect the dialogue state, but which are not in themselves linguistic.</P>
+
+<P>By default, the example dialogue managers shipped with Midiki use small sets of input and output dialogue moves based on the dialogue moves used by GoDiS. These moves are listed in Tables 3 and 4 below. The sets of input and output moves are slightly different, reflecting the fact that we know more about the state of the system than we do about the user.</P>
+
+<P>&nbsp;</P>
+<P>Table 3.  User (input) moves in Midiki’s default dialogue theory.</P>
+
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<B><P>User Move</B></TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<B><P>Description</B></TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>ask(Q)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Ask a question. Q contains a predicate or atom specifying the identified question.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>answer(A)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Supply an answer. A is either a predicate identifying the exact answer, or an atom for which a specific question has not yet been identified.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>reqRep(R)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Request that the system repeat the last utterance. R is the reason; typically ‘understanding’.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>greet</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Conversation opener</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>quit</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Conversation closer</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>ack</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Acknowledgement</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>failed</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>The dialogue system determined that the user made a move, but was unable to identify its characteristics. Typically represents a complete parse failure.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>no_move</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>The dialogue system determined that the user has made a null move. A system might generate this move to signal expiration of some system-specific time limit, for example.</TD>
+</TR>
+</TABLE>
+
+
+<P>Table 4. System (output) moves in Midiki’s default dialogue theory.</P>
+
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<B><P>System Move</B></TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<B><P>Description</B></TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>ask(Q)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Ask a question. Q contains a predicate specifying the identified question.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>answer(Q,A)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Supply an answer. A is a predicate identifying the exact answer, while Q is a predicate identifying the original question.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>inform(P)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Supply information. P contains a predicate specifying the information to convey.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>reqRep(R)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Request that the user repeat the last utterance. R is the reason; typically ‘relevance’ or ‘understanding’.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>repeat(M)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Repeat the move M.   (Note: In future implementations of Midiki, a <I>repeat</I> may be handled as a strategy instead of as a move.)</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>greet</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Conversation opener.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>quit</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Conversation closer.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>thank</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Politeness.</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P>ack(P)</TD>
+<TD WIDTH="80%" VALIGN="TOP">
+<P>Acknowledgement. P is a predicate or atom specifying the information that is being acknowledged.</TD>
+</TR>
+</TABLE>
+
+
+<P>Dialogue moves are the typical means by which the DME communicates with other components of the dialogue system.</P>
+<B><FONT SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967405">4.3.1.2&#9;Strategies</A></P>
+</B></FONT><P>Let’s look at the types of dialogue involved in processing a call from a customer. What is the customer trying to do?  She wants to find a solution to a problem, or information that will help her solve a problem. What are we (the helpdesk) trying to do? We want to direct the customer to the right resource, whether that’s a person, a message, or a document. We want to do that with as little human (i.e. expensive) involvement as possible. The outcome may be the performance of some service for the user, but is not required to be.</P>
+<P>For the moment let’s not be too concerned about what the actual information we’re seeking happens to be. What’s important is the style of the interaction. Let’s describe some typical kinds of interactions and look for common elements.</P>
+<B><I><FONT SIZE=4><P><A NAME="_Toc85967406">4.3.1.2.1&#9;The Findout Strategy</A></P>
+</B></I></FONT><P>The system needs to match information from the user against the problem space.  The user may provide information without being asked, or in response to a system query. Since the user may be passive, the system needs to have a strategy for eliciting the information it needs from the user:</P>
+
+<UL>
+<LI>Ask user for information</LI>
+<LI>Match information provided against information needed.</LI></UL>
+
+
+<P>Let’s call that strategy ‘findout’. We expect the system to ‘ask’, and the user to ‘answer’, as reported by the semantic interpreter. There are a number of possible outcomes of this match.</P>
+
+<UL>
+<LI>Perfect match?  Success.</LI></UL>
+
+
+
+<UL>
+<LI>If the user provided <I>extra</I> information, see if we can use it.</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Can apply it later in this task?</P>
+<P>Can apply it to another related task?</P>
+<P>Can’t apply it in a relevant way.</P><DIR>
+
+<P>Was this completely irrelevant?</P>
+<P>Is this too precise (can we relax or ignore this constraint?)</P>
+<P>Did we go down a garden path?</P>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>If the user didn’t provide <I>enough</I> information.</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>The information provided is incomplete.</P>
+<P>The information provided is insufficiently precise.</P>
+<P>The user didn’t provide any information.</P><DIR>
+
+<P>Does the user understand the question?</P>
+<P>Does the user understand the possible answers?</P>
+<P>Does the user understand the context?</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<P>We don’t know right now what information we’re seeking, so we don’t know how to establish relevance, accuracy, precision, and so forth. That’s OK; we’re going to delegate those tasks to a domain agent.</P>
+<B><I><FONT SIZE=4><P><A NAME="_Toc85967407">4.3.1.2.2&#9;The Inform Strategy</A></P>
+</B></I></FONT><P>Once the system has satisfied its information needs and taken whatever action it might need to take with that information, it will typically tell the outcome of that action to the user.</P>
+
+<UL>
+<LI>Tell user the outcome (success or failure, information retrieved, whatever the outcome is).</LI></UL>
+
+
+
+<UL>
+<LI>The user acknowledges that outcome. There are a lot of potential semantic complexities here.</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Positive acknowledgement.</P>
+<P>Negative acknowledgement.</P>
+<P>Tacit acknowledgement, which may be positive or negative depending upon your grounding strategies.</P></DIR>
+</DIR>
+</DIR>
+
+<P>As an aside, although we know when the system is doing an inform move, we can’t know when the <I>user</I> is doing an inform move.  The user may instead be doing an answer move.  Since we can only guess at the internal state of the user, we have chosen for our example to treat all user utterances that can be considered answers as answer moves.</P>
+<B><I><FONT SIZE=4><P><A NAME="_Toc85967408">4.3.1.2.3&#9;The Respond Strategy</A></P>
+</B></I></FONT><P>We may not be able to determine user intent, but we can say something about system intent. If the user asks a question, the system ought to respond to it in some way. The selected response might be to ignore the question, if that’s the dialogue style that’s appropriate. Let’s look at some cases where we choose a different style. (This is not an attempt at an exhaustive list.)</P>
+
+<UL>
+<LI>Question pertains to current task:</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>What are the possible values for a choice of responses?</P><DIR>
+
+<P>How many?</P>
+<P>How defined/structured?</P>
+<P>What are exemplars?</P></DIR>
+
+<P>What are IMpossible values?</P><DIR>
+
+<P>Specified by fiat</P>
+<P>Constrained by previous responses</P></DIR>
+
+<P>What are the current values?</P><DIR>
+
+<P>Specified by fiat</P>
+<P>Constrained by previous responses</P></DIR>
+
+<P>When is this value/task appropriate?</P></DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>Question pertains to mechanics of interaction itself</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>(Our position is that this should be modeled like any other task)</P></DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>Question pertains to a possible task, but not the current one</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Task is in discourse history</P>
+<P>Task is not in discourse history</P><DIR>
+
+<P>Did we make a mistake?</P>
+<P>Is user selecting a different avenue?</P>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+
+<UL>
+<LI>Question seems to be completely irrelevant</LI></UL>
+
+<P>Let’s call this the ‘respond’ strategy. We’ll put a ‘respond’ task on the system’s agenda, and we’ll assume that under normal circumstances the user will do something similar when the system asks a question.</P>
+
+<P>What types of strategies do we have for directing a person?</P>
+
+<UL>
+<LI>Choice. Give the user a menu of options and have them choose one. Fine if there are a small number of items. Typical for a command interface.</LI>
+<LI>Yes or no. Specialized form of choice.</LI>
+<LI>Form filling. Let the person describe the attributes of their problem and match them against some form of database. Typical for performing a service or requesting information.</LI></UL>
+
+<P>It’s important to note that most dialogues are going to have some mixture of those strategies. There is also a significant difference between system-driven forms and user-driven forms.</P>
+<OL START=4>
+<OL START=4>
+<OL START=4>
+<OL START=4>
+<OL START=4>
+
+<LI><A NAME="_Toc85967409"><B><I><FONT SIZE=4>Opening and closing strategies</A></LI></OL>
+</OL>
+</OL>
+</OL>
+</OL>
+
+</B></I></FONT><P>At a minimum, we’re going to need the ability to signal the start and end of a conversation. More complex systems may want to broaden this area to include additional social strategies, but we limit ourselves to the following:</P>
+
+
+<UL>
+<LI>Greet.  Open the conversation with a greeting and introduction.</LI>
+<LI>Quit.  Close the conversation, possibly closing the dialogue system.</LI></UL>
+
+<B><I><FONT SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967410">4.3.1.2.5&#9;Other plan elements</A></P>
+</B></I></FONT><P>Along with conversational strategies, plans include non-linguistic elements such as iteration, conditional execution, invocation of other plans and/or system actions, and system reset.  Here is a possible list:</P>
+
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>if_then</LI>
+<LI>if_then_else</LI>
+<LI>do_while</LI>
+<LI>forget</LI>
+<LI>reset</LI>
+<LI>query</LI>
+<LI>method</LI></UL>
+
+</FONT><B><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967411">4.3.2&#9;Example domain plans</A></P>
+</B></FONT><P>With our domain modeling in mind, we can make a hypothetical top-level plan for our system interaction:</P>
+
+
+<UL>
+<LI>greet the caller (by default, the move used to jumpstart the dialogue at startup)</LI>
+<LI>have a conversation</LI>
+<LI>ask the caller if we can help with anything else.</LI></UL>
+<DIR>
+<DIR>
+<DIR>
+
+<P>if yes, have another conversation</P>
+<P>if no, close conversation and end the call</P></DIR>
+</DIR>
+</DIR>
+
+<P>To have a conversation, our sub-plan is to:</P>
+
+<UL>
+<LI>find out the topic</LI>
+<LI>find out the action, constrained by selected topic</LI>
+<LI>do that action</LI></UL>
+
+<P>If a cell in the topic-action table (Table 2) is empty, we can’t give a response for that combination, and must either terminate the call or refer the caller to a customer service representative.</P>
+
+<P>How do we decide which plan to execute to handle a given task?  We use some conditional operations:</P>
+
+
+<UL>
+<LI>find out the topic</LI>
+<LI>find out the action, constrained by the selected topic</LI>
+<LI>if action is <FONT FACE="Courier New" SIZE=2>general_info</FONT>, execute <FONT FACE="Courier New" SIZE=2>general_info(topic(X))</LI>
+</FONT><LI>if action is <FONT FACE="Courier New" SIZE=2>specific_info</FONT>, execute <FONT FACE="Courier New" SIZE=2>specific_info(topic(X),Y)</LI>
+</FONT><LI>if action is <FONT FACE="Courier New" SIZE=2>send_publication</FONT>, execute <FONT FACE="Courier New" SIZE=2>send_publication(topic(X),Z)</LI>
+</FONT><LI>if action is <FONT FACE="Courier New" SIZE=2>transfer_call</FONT>, execute <FONT FACE="Courier New" SIZE=2>transfer_call()</LI>
+</FONT><LI>otherwise, we couldn’t understand or process the caller’s request.</LI></UL>
+
+<P>For the action <FONT FACE="Courier New" SIZE=2>general_info</FONT>, the plan is simple:</P>
+
+<UL>
+<LI>inform the caller with <FONT FACE="Courier New" SIZE=2>inform(describe(X))</LI></UL>
+
+</FONT><P>where <FONT FACE="Courier New" SIZE=2>X</FONT> is a topic.</P>
+
+<P>For the action <FONT FACE="Courier New" SIZE=2>specific_info</FONT>, the plan is a bit more complex:</P>
+
+<UL>
+<LI>if <FONT FACE="Courier New" SIZE=2>topic(status_of_refund)</FONT>, execute <FONT FACE="Courier New" SIZE=2>get_status_of_refund</LI>
+</FONT><LI>if <FONT FACE="Courier New" SIZE=2>topic(child_tax_credits)</FONT>, execute <FONT FACE="Courier New" SIZE=2>get_child_tax_credits</LI></UL>
+
+</FONT><P>where <FONT FACE="Courier New" SIZE=2>get_status_of_refund</FONT> is:</P>
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>find out ssn(X)</LI>
+<LI>find out filing_status(Y)</LI>
+<LI>find out refund_amt(Z)</LI>
+<LI>lookup_refund_status(<BR>
+&#9;ssn(X),filing_status(Y),refund_amt(Z),refund_status(S))</LI>
+<LI>inform refund_status(S)</LI></UL>
+
+</FONT><P>and <FONT FACE="Courier New" SIZE=2>get_child_tax_credits</FONT> is:</P>
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>find out ssn(X)</LI>
+<LI>find out filing_status(Y)</LI>
+<LI>find out exemptions(Z)</LI>
+<LI>lookup_ctc(ssn(X),filing_status(Y),exemptions(Z),ctc(CTC))</LI>
+<LI>inform ctc(CTC)</LI></UL>
+
+</FONT><P>For the action <FONT FACE="Courier New" SIZE=2>send_publication</FONT>:</P>
+
+<UL>
+<LI>find out if caller’s last address is valid</LI>
+<LI>find out caller’s SSN</LI>
+<FONT FACE="Courier New" SIZE=2><LI>get_publication(topic(X), pub(Y))</LI>
+<LI>send_publication(pub(Y), address(Z))</LI></UL>
+
+</FONT><P>For the action <FONT FACE="Courier New" SIZE=2>transfer_call</FONT>:</P>
+
+<UL>
+<LI>transfer the call</LI></UL>
+
+<B><I><FONT FACE="Arial" SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967412">4.4&#9;Extending Midiki to handle these plans</A></P>
+</B></I></FONT><P>Above, we’ve designed plans to meet our domain tasks.  To support these plans, there are a few extensions we might like to make to the default Midiki configuration. </P>
+
+<UL>
+<LI>discourse history: inheritance of values within a single conversation</LI>
+<LI>a plan stack, rather than a single plan</LI>
+<LI>the ability to validate and constrain values</LI>
+<LI>the ability to execute external routines</LI></UL>
+
+<B><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967413">4.4.1&#9;Discourse history: Inheritance of values</A></P>
+</B></FONT><P>It turns out that inheriting values can be straightforward, typically requiring no changes to the existing design. This is because the baseline information state for Midiki includes an attribute called <FONT FACE="Courier New" SIZE=2>com</FONT>, for ‘common ground’. This attribute contains all the values that the system believes are agreed upon by both the system and the user. It is automatically consulted every time the findout strategy is chosen, and unifying values will be used instead of querying the user.</P>
+<FONT FACE="Courier New" SIZE=2>
+</FONT><P>In the baseline example, common ground is a flat pool of values. This can be contrasted with more sophisticated representations such as Discourse Representation Structures (DRS), which are outside the scope of this example.</P>
+<B><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967414">4.4.2&#9;Maintaining a plan stack</A></P>
+</B></FONT><P>The simple dialogue manager shipped with Midiki assumes that at most one plan is active at any time. The DM provides a simple strategy for executing a new named plan, which replaces the currently active plan.  That strategy is called:</P>
+
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>exec &lt;plan&gt;</FONT> - replaces the current plan with the named plan</LI></UL>
+
+
+<P>Based on the example plans we designed, however, it would be convenient to call up a new plan, and return to our starting point when we’re done. Let’s therefore add the following set of plan manipulation strategies:</P>
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>call &lt;plan&gt;</FONT> - execute the named plan and return to our current plan when we’re done</LI>
+<FONT FACE="Courier New" SIZE=2><LI>resume [&lt;plan&gt;]</FONT> - stop processing the current plan and resume the previous plan where we left off. If a plan name is specified, go back to the most recent instance of that plan. If there aren’t any previous plans, reset the DME.</LI>
+<FONT FACE="Courier New" SIZE=2><LI>reset &lt;plan&gt;</FONT> - reset the DME, using the named plan</LI></UL>
+
+
+<P>The classic means of implementing this type of functionality is by use of a last-in first-out queue, or <I>stack</I>. To implement this functionality in our DME, we need to:</P>
+
+<UL>
+<LI>modify our information state</LI>
+<LI>change all references to affected attributes</LI>
+<LI>add processing to handle the new plan strategies</LI>
+<LI>make sure we can add the new strategies to the plans we build</LI></UL>
+
+
+<P>The current plan is stored in <FONT FACE="Courier New" SIZE=2>is.private.plan</FONT>.  (Again, &quot;<FONT FACE="Courier New" SIZE=2>is</FONT>&quot; stands for <I>Information State</I>.)  We need to change that from a plan instance to a stack of plan instances, wherever that IS attribute is accessed.  This occurs in several conditions, in several rule consequences, and in the domain implementation.  The Java classes for these are shown in Table 5.</P>
+
+<P>Table 5.  Midiki classes affected by modifications from plan to a plan stack.</P>
+
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<P ALIGN="CENTER">Affected class</P>
+<P ALIGN="CENTER"></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<P ALIGN="CENTER">Directory</TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>NextPlanStep</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.conditions</FONT></TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>NoNextStep</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.conditions</FONT></TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>Result</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.conditions</FONT></TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>WantAnswer</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.conditions</FONT></TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>DomainCell</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.domain</FONT></TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>DomainImplementation</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.domain</FONT></TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>PlanInstance</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.domain</FONT></TD>
+</TR>
+</TABLE>
+
+
+<P>The modification in each class corresponds to the following.  Before the modification, the current plan is accessed with the following code:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>Object plan = infoState.cell("is").cell("private").get("plan");</P>
+</DIR>
+
+</FONT><P>To access the top stack element instead, we change this to:</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>Object planStack = infoState.cell("is").cell("private").get("plan");</P>
+<P>Object plan = ((Stack)planStack).peek();</P>
+</FONT></DIR>
+
+<P>Changing the above classes addresses most references to plans within the DME rules. Now we need to address the new strategies for managing plans, by modifying the rulesets which handle those strategies. (We will also need to make some additional changes to <FONT FACE="Courier New" SIZE=2>Result.java</FONT> for pushing and popping plans.)  These affected classes are shown in Table 6.</P>
+<FONT FACE="Courier New" SIZE=2>
+</FONT><P>&nbsp;</P>
+<P>Table 6.  Midiki classes affected by modifications for new plan management strategies.</P>
+
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<P ALIGN="CENTER">Affected class</TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<P ALIGN="CENTER">Reason</TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.rules.Integrate</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<P>Ruleset implements IS access strategies</TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.rules.RefillAgenda</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<P>Pops plan stack when refilling agenda from an empty plan, as long as stack not empty.</TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>org.mitre.dm.qud.rules.ManagePlan</FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<P>Ruleset implements plan strategies</TD>
+</TR>
+</TABLE>
+
+
+<P>As an example of the modification needed, in the baseline DME the class <FONT FACE="Courier New" SIZE=2>ManagePlan</FONT> builds the following rule for handling the simple exec strategy (which replaces the current plan with the named plan):</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>/*</P>
+<P> * Execute a chained task.</P>
+<P> */</P>
+<P>Condition removePlanExecC = new Condition();</P>
+
+<P>// if the next step in the current plan is to exec task t</P>
+<P>removePlanExecC.extend(new NextPlanStep(exec_t));</P>
+
+<P>// and if we have a plan p for task t</P>
+<P>removePlanExecC.extend(new HavePlan(t,p));</P>
+
+<P>// then instantiate plan p</P>
+<P>ExistsRule removePlanExec =</P>
+<P>    new ExistsRule(removePlanExecC){</P>
+<P>    public boolean execute(InfoState infoState, Bindings bindings) {</P>
+<P>        Result.instantiatePlan(p, infoState, bindings);</P>
+<P>        return true;</P>
+<P>    }</P>
+<P>};</P>
+<P>add(removePlanExec); </P>
+</FONT></DIR>
+
+<P>This rule says, &quot;if the next plan step unifies with ‘exec(T)’, and we have a plan P for task T, then instantiate plan P.&quot;</P>
+<FONT FACE="Courier New" SIZE=2>
+</FONT><P>Now that we have some new plan management strategies, beyond this simple exec strategy, we need to slightly modify this rule and add some new rules.</P>
+
+<P>The existence of the plan stack changes the interpretation of plan instantiation. Instead of just creating it and setting the plan to that value, the default behavior is to create the new plan and push it onto the stack.</P>
+<FONT FACE="Courier New" SIZE=2>
+</FONT><P>&nbsp;</P>
+<P>So we will build a new exec rule, to first pop the old plan off the stack before adding the new one.</P>
+<FONT FACE="Courier New" SIZE=2><DIR>
+
+<P>/*</P>
+<P> * Execute a chained task.</P>
+<P> */</P>
+<P>Condition removePlanExecC = new Condition();</P>
+<P>removePlanExecC.extend(new NextPlanStep(exec_t));</P>
+<P>removePlanExecC.extend(new HavePlan(t,p));</P>
+<P>ExistsRule removePlanExec =</P>
+<P>    new ExistsRule(removePlanExecC){</P>
+<P>    public boolean execute(InfoState infoState, Bindings bindings) {</P>
+<P>        Result.popPlan(infoState, bindings); // remove previous plan</P>
+<P>        Result.instantiatePlan(p, infoState, bindings);</P>
+<P>        return true;</P>
+<P>    }</P>
+<P>};</P>
+<P>add(removePlanExec); </P>
+</DIR>
+
+</FONT><P>And the old exec rule can become the new ‘subroutine call’ rule, to exec the new plan.</P>
+<FONT FACE="Courier New" SIZE=2><DIR>
+
+<P>/*</P>
+<P> * Execute a subroutine task.</P>
+<P> */</P>
+<P>Condition removePlanCallC = new Condition();</P>
+<P>removePlanCallC.extend(new NextPlanStep(call_t));  removePlanCallC.extend(new HavePlan(t,p));</P>
+<P>ExistsRule removePlanCall =</P>
+<P>    new ExistsRule(removePlanCallC){</P>
+<P>    public boolean execute(InfoState infoState, Bindings bindings) {</P>
+<P>        Result.instantiatePlan(p, infoState, bindings);</P>
+<P>        return true;</P>
+<P>    }</P>
+<P>};</P>
+<P>add(removePlanCall); </P>
+</DIR>
+
+</FONT><P>And the ‘resume’ rule with no argument just needs a pop operation.</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>/*</P>
+<P> * Resume a previous task.</P>
+<P> */</P>
+<P>Condition removePlanResumeC = new Condition();</P>
+<P>removePlanResumeC.extend(new NextPlanStep(&quot;resume&quot;));</P>
+<P>removePlanResumeC.extend(new HavePlan(t,p));</P>
+<P>ExistsRule removePlanExec =</P>
+<P>    new ExistsRule(removePlanExecC){</P>
+<P>    public boolean execute(InfoState infoState, Bindings bindings) {</P>
+<P>        Result.popPlan(infoState, bindings); // remove previous plan</P>
+<P>        Result.instantiatePlan(p, infoState, bindings);</P>
+<P>        return true;</P>
+<P>    }</P>
+<P>};</P>
+<P>add(removePlanExec); </P>
+</FONT></DIR>
+
+<P>Finally, we need to decide what the default plan management case should be, and how to handle it. With a stack, the usual default when we finish something is to pick up the previous activity where we left off. That means that we should write a rule that will resume the previous plan when we have no next plan step but the plan stack is not empty.</P>
+<P>The best place to add this rule is in the <FONT FACE="Courier New" SIZE=2>RefillAgenda</FONT> ruleset.  This refills the agend with the plan on the stack.</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>/*</P>
+<P> * Refill the agenda by resuming a previous plan, if possible.</P>
+<P> */</P>
+<P>Condition refillAgendaFromPlanStackC = new Condition();</P>
+<P>refillAgendaFromPlanStackC.extend(new AgendaIsEmpty());</P>
+<P>refillAgendaFromPlanStackC.extend(new NoNextStep(q));</P>
+<P>refillAgendaFromPlanStackC.extend(new PlanStackNotEmpty());</P>
+<P>ExistsRule refillAgendaFromPlanStack =</P>
+<P>    new ExistsRule(refillAgendaFromPlanStackC){</P>
+<P>    public boolean execute(InfoState infoState, Bindings bindings) {</P>
+<P>      logger.logp(Level.FINER,"org.mitre.dm.qud.rules.RefillAgenda",</P>
+<P>                    "refillAgendaFromPlanStack.execute",</P>
+<P>                    "refilling from plan stack",bindings);</P>
+<P>      Result.popPlan(infoState, bindings);</P>
+<P>      Result.advancePlan(infoState, bindings);</P>
+<P>      return true;</P>
+<P>    }</P>
+<P>};</P>
+<P>add(refillAgendaFromPlanStack);</P>
+</FONT></DIR>
+
+<P>There are several other changes needed to modify Midiki for our new domain.  These are listed below.  Inspect the named file to see the relevant modification made.</P>
+
+
+<UL>
+<LI>Modified <FONT FACE="Courier New" SIZE=2>qud/conditions/WantAnswer.java</FONT> condition to examine plan on top of stack</LI>
+<LI>Modified <FONT FACE="Courier New" SIZE=2>qud/rules/Integrate.java</FONT> rule to process ‘query’ and ‘method’ strategies</LI>
+<LI>Added method <FONT FACE="Courier New" SIZE=2>addDoWhile()</FONT> to <FONT FACE="Courier New" SIZE=2>qud/domain/Plan.java</LI>
+</FONT><LI>Added contract name parameter to <FONT FACE="Courier New" SIZE=2>addMethodCall()</FONT> in <FONT FACE="Courier New" SIZE=2>qud/domain/Plan.java</LI>
+</FONT><LI>Added processing of do-while predicate to <FONT FACE="Courier New" SIZE=2>qud/domain/PlanInstance.java</LI></UL>
+
+<OL START=3>
+<OL START=3>
+<OL START=3>
+
+</FONT><B><FONT FACE="Arial" SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967415">Validating and constraining attribute values</A></LI></OL>
+</OL>
+</OL>
+
+</B></FONT><P>In a dialogue system, it’s important to be able to determine if a particular value is valid for a particular question, or if it has relevance to some other task or entity in the domain.  That information is stored in our domain implementation in an attribute map, which relates domain contract attributes to specifications of their possible values.  (See the <FONT FACE="Courier New" SIZE=2>initializeAttributes()</FONT> method in <FONT FACE="Courier New" SIZE=2>Domain.java</FONT><FONT FACE="Courier New">.</FONT>)</P>
+
+<P>The baseline domain implementation is currently limited to enumerated values.  That is, we can specify that values for a specific attribute must come from a particular list that we place in the domain.  We do this by building a list of permitted values for an attribute, and then adding it to the attribute map under the attribute name.  In our example, we won’t try to extend that value check to other types of validation (e.g., numeric ranges, database lookups, or ontological reasoning).  However, these domain processing enhancements are being considered for inclusion in future releases of Midiki.</P>
+<B><FONT FACE="Arial" SIZE=4><P><A NAME="_Toc85967416">4.4.4&#9;Executing external routines</A></P>
+</B></FONT><P>The ‘query’ and ‘method’ strategies are designed to allow access to arbitrary parts of the information state from inside a plan specification.  The basic form of these two strategies has two arguments: the contract name, and the method name.</P>
+<FONT FACE="Courier New" SIZE=2>
+</FONT><P>For example, <FONT FACE="Courier New" SIZE=2>method(&quot;travel_agency&quot;,&quot;book_flight&quot;)</FONT> would make a call to a hypothetical travel agency interface to book a flight. The arguments to the method are matched by name from the current context, and the current context will be updated upon return from the method.  There can be unbound variables passed to the external routine, which can bind them.  For example, a variable called <FONT FACE="Courier New" SIZE=2>ticket_price</FONT>, which had not yet entered the dialogue, can be bound by the travel agency routine when it finds a requested flight.  The ticket price can then be added to the information state, for ready use when it later comes up in conversation.</P>
+
+<P>This scheme assumes that argument names are easily matched, that all the arguments are present as attributes in the current plan, and that no confusion can occur. For more control over the process, there is a three-argument version; the third argument is simply a list of arguments to the method.</P>
+<FONT FACE="Courier New" SIZE=2>
+</FONT><P>This capability is still under development, and will be expanded upon in the future.</P>
+<P>&nbsp;</P>
+<B><FONT FACE="Arial" SIZE=5><P>&nbsp;</P>
+<P><A NAME="_Toc85967417">5&#9;Using Midiki within a dialogue system &#9;infrastructure</A></P>
+</B></FONT>
+<P>Midiki is a toolkit for building a dialogue manager.  It is not a dialogue system. That is, Midiki does not provide a speech recognizer, parser, text generator, or any component other than dialogue management. In order for a Midiki dialogue manager to be useful, it needs to be connected to other components which can provide these kinds of essential services for communicating with the outside world. This chapter discusses how Midiki supports such a connection.</P>
+
+<P>For those interested in seeing the code behind the concepts in this chapter, it can be found in the following directory path:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>midiki</P>
+<P>&#9;&#9;src</P>
+<P>&#9;&#9;&#9;java</P>
+<P>&#9;&#9;&#9;&#9;org</P>
+<P>&#9;&#9;&#9;&#9;&#9;mitre</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;midiki </P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;impl</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;mitre</P>
+</FONT><P>&nbsp;</P>
+<OL>
+<OL>
+
+<LI><A NAME="_Toc85967418"><B><I><FONT FACE="Arial" SIZE=4>Information State architecture</A></LI>
+</B></I></FONT>
+<P>At the heart of every Midiki dialogue manager is the Information State. All parts of the dialogue system communicate through the Information State, either by modifying data attributes directly or through service calls.</P>
+<OL>
+
+<LI><A NAME="_Toc85967419"><B><FONT FACE="Arial" SIZE=4>Structure of the Information State</A></LI>
+</B></FONT><P>Traditionally, the Information State is a feature structure, with attributes that are either further feature structures or logic variables.  TRINDIKIT provides this structure, plus additional variables for interfacing with software modules.  Midiki brings all of those variables into a common representation: the <FONT FACE="Courier New" SIZE=2>Contract</FONT>.</P>
+
+<P>A <FONT FACE="Courier New" SIZE=2>Contract</FONT> contains attributes, which may be constrained by type. It also contains service interfaces of two types.  A <FONT FACE="Courier New" SIZE=2>Query</FONT>, which may return multiple results, may not change the current Information State.  A <FONT FACE="Courier New" SIZE=2>Method</FONT> is assumed to change some element of state. The Information State is defined by a set of contracts which encapsulate all of the data and services the dialogue manager needs to access.</P>
+<P>&nbsp;</P>
+<B><FONT FACE="Arial" SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967420">Managing the Information State</A></LI>
+</B></FONT>
+<P>In the discussions up to this point, the preceding description of the Information State is all we needed to know.  Conditions and rules access attributes, queries, and methods in the IS, and we have assumed that those data and services would be available.  We have also assumed that Midiki would fire rules when the right attributes changed, and that data would somehow get to every interested party.</P>
+
+<P>All of this is handled under the hood of the Information State implementation.  There are two main structures that the implementation uses to handle these data distribution issues: the <FONT FACE="Courier New" SIZE=2>Cell</FONT>, and the <FONT FACE="Courier New" SIZE=2>Mediator</FONT>.</P>
+
+<P>A <FONT FACE="Courier New" SIZE=2>Cell</FONT> is an implementation of a <FONT FACE="Courier New" SIZE=2>Contract</FONT>, providing access to the data and services described in the <FONT FACE="Courier New" SIZE=2>Contract</FONT>.  Furthermore, we consider a <FONT FACE="Courier New" SIZE=2>Cell</FONT> to be divided into a client side and a server side, which communicate through a <FONT FACE="Courier New" SIZE=2>Mediator</FONT>.  This <FONT FACE="Courier New" SIZE=2>Mediator</FONT> provides a set of simple agent infrastructure services which allow the two halves of a <FONT FACE="Courier New" SIZE=2>Cell</FONT> to work together.</P>
+
+<P>In the discussion so far, then, the DME has talked to the cell clients through such code as the following:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>Object agenda = </P>
+<P>            infoState.cell("is").cell("private").get("agenda");</P>
+</FONT>
+<P>This uses the cell clients to find the right instance of the <FONT FACE="Courier New" SIZE=2>agenda</FONT><FONT FACE="Courier New"> </FONT>attribute, which is maintained by the server for that cell.</P>
+
+<P>We also use code like the following in several conditions previously discussed:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>infoState.cell("domain").<BR>
+&#9;query("relevant_answer").query(args,bindings);</P>
+</FONT>
+<P>which invokes the <FONT FACE="Courier New" SIZE=2>relevant_answer</FONT> service of the domain contract.</P>
+
+<P>Midiki has a set protocol for maintaining data attributes, which is automatically invoked (except in certain special cases which will be discussed later).  However, Midiki has no way of knowing how to implement a service like <FONT FACE="Courier New" SIZE=2>relevant_answer</FONT> without additional input from the system developer.  That input is provided to Midiki in the form of service handlers when an agent is initialized, as discussed in the next section.</P>
+<P>&nbsp;</P>
+<B><FONT FACE="Arial" SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967421">Agents: Data subscribers and service providers</A></LI></OL>
+
+</B></FONT>
+<P>An <FONT FACE="Courier New" SIZE=2>Agent</FONT> in Midiki is an executable class that needs access to parts of the Information State, defined by a list of required <FONT FACE="Courier New" SIZE=2>Contracts</FONT>, and which may provide services to other agents, as defined by a list of <FONT FACE="Courier New" SIZE=2>CellHandlers</FONT>.  An <FONT FACE="Courier New" SIZE=2>Agent</FONT> can expect to be initialized, queried regarding its needs and capabilities, and then connected to an Information State instance.  An <FONT FACE="Courier New" SIZE=2>Agent</FONT> typically encapsulates a specific dialogue system function.</P>
+
+<P>Our sample dialogue system, for example, includes the following agents from package <FONT FACE="Courier New" SIZE=2>org.mitre.dm.qud</FONT>:</P>
+
+<P>Table 7.  Agents used in sample dialogue system shipped with Midiki.</P>
+
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="26%" VALIGN="TOP">
+<P>Agent</TD>
+<TD WIDTH="74%" VALIGN="TOP">
+<P>Description</TD>
+</TR>
+<TR><TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>IOAgent</FONT></TD>
+<TD WIDTH="74%" VALIGN="TOP">
+<P>Provides input and output using a GUI widget.</TD>
+</TR>
+<TR><TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>InterpretAgent</FONT></TD>
+<TD WIDTH="74%" VALIGN="TOP">
+<P>Tokenizes the input and scans it for dialogue moves.</TD>
+</TR>
+<TR><TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>DmeAgent</FONT></TD>
+<TD WIDTH="74%" VALIGN="TOP">
+<P>The dialogue move engine. Applies update rules to the input, then selects the next system action.</TD>
+</TR>
+<TR><TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>GenerateAgent</FONT></TD>
+<TD WIDTH="74%" VALIGN="TOP">
+<P>Generates output text reflecting the system’s moves. Notifies the DME when the moves have been output.</TD>
+</TR>
+<TR><TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>ISControlAgent</FONT></TD>
+<TD WIDTH="74%" VALIGN="TOP">
+<P>Maintains data attributes and supports proper firing of data listeners.</TD>
+</TR>
+<TR><TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>DomainAgent</FONT></TD>
+<TD WIDTH="74%" VALIGN="TOP">
+<P>Provides simple domain structure and reasoning. Used by both the DME and the Interpret agent.</TD>
+</TR>
+</TABLE>
+
+
+<P>All of these agents use some subset of the Information State, and most provide handlers for some services.  They all communicate with each other through the Information State.  There is a default Mediator implementation which supports communication between cells in the same executing program.</P>
+
+<P>At this point, the discussion needs to branch in several different directions to support different communities of users.</P>
+
+<P>For those who want a more in-depth discussion of how to implement a new service, consult section 5.2.  For a discussion of how to access system components using an external agent infrastructure (such as GalaxyCommunicator or the Open Agent Architecture), see section 5.3.  For a discussion of the system executive, Midiki parameters, and building an Information State, read section 5.4.  Finally, those who want to use our simple dialogue system will want to consult section 5.5, for a discussion of our simple pattern-matching parser (class <FONT FACE="Courier New" SIZE=2>LexiconImplementation</FONT>).</P>
+<P>&nbsp;</P>
+<B><I><FONT FACE="Arial" SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967422">How to build a new service inside Midiki</A></LI>
+</B></I></FONT>
+<P>The first step in building a new service is to define a contract that embodies the interface to that service.</P>
+
+<P>This contract will include one or more queries or methods as needed for your design. (This interface may also include data attributes, but those are handled automatically by the Information State implementation and need no further discussion.)</P>
+
+<P>We’ll implement a simple service that includes a query and a method. In pseudocode, the definition looks like this:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>contract simple {</P>
+<P>    query lookup(value);</P>
+<P>    method display(value);</P>
+<P>}</P>
+</FONT>
+<P>Any service provided by a Midiki agent is going to be implemented as a subclass of <FONT FACE="Courier New" SIZE=2>QueryHandler</FONT> or <FONT FACE="Courier New" SIZE=2>MethodHandler</FONT>, overriding the <FONT FACE="Courier New" SIZE=2>query</FONT> or <FONT FACE="Courier New" SIZE=2>invoke</FONT> methods respectively.</P>
+
+<P>Whenever a Midiki agent uses a service, that service’s handler will be called with two arguments: a <FONT FACE="Courier New" SIZE=2>Collection</FONT> of its arguments, and a <FONT FACE="Courier New" SIZE=2>Bindings</FONT> object to record the results.  It is your responsibility to extract the arguments from the <FONT FACE="Courier New" SIZE=2>Collection</FONT> and perform the service.</P>
+
+<P>One example which you can consult is the <FONT FACE="Courier New" SIZE=2>DomainCell</FONT> class, which provides handlers for the domain interface. Each of the handlers it builds extracts arguments and calls <FONT FACE="Courier New" SIZE=2>DomainImplementation</FONT> methods to calculate the results.</P>
+
+<P>Queries and methods in Midiki are inspired by Prolog predicates.  The most important consequence of that for our discussion is the following.  Any argument to a service might be (or may contain) an <FONT FACE="Courier New" SIZE=2>org.mitre.midiki.logic.Variable</FONT>.  Very often, some of those variables do not have values (or &quot;are not bound&quot;) when the service is called, and the service is expected to bind a value to those variables.  This is the only way to return anything other than a true or false result from a Midiki service.</P><OL>
+
+<OL>
+
+<B><FONT SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967423">Implementing a Query</A></LI>
+</B></FONT>
+<P>A query can return a set of assignments.  It can return multiple sets, or none at all.  If the query fails, simply return <FONT FACE="Courier New" SIZE=2>false</FONT>.  If the query succeeds, and one or more of the arguments are variables, then your service should bind the calculated results to those variables (using the <FONT FACE="Courier New" SIZE=2>Unifier</FONT> methods <FONT FACE="Courier New" SIZE=2>matchTerms()</FONT> and/or <FONT FACE="Courier New" SIZE=2>unify()</FONT>).  Our sample service implementation illustrates this.</P>
+
+<P>Because there could be multiple valid sets of values, we need a way to indicate this. The way we’ve chosen is to require <FONT FACE="Courier New" SIZE=2>Bindings.reset()</FONT> after every set of results.</P>
+<OL>
+
+<LI><A NAME="_Toc85967424"><B><I><FONT SIZE=4>Scaling issues</A></LI></OL>
+
+</B></I></FONT><P>Because each value is bound separately and all bindings are calculated before the query returns, you should use some care in designing query services.  If, for example, you want to use a query to extract records from a database, it could be more efficient to bind a variable to the set of extracted records and write a <FONT FACE="Courier New" SIZE=2>Condition</FONT> to iterate over them rather than to bind each database record separately.</P>
+<LI><A NAME="_Toc85967425"><B><FONT SIZE=4>Implementing a Method</A></LI></OL>
+</OL>
+
+</B></FONT>
+<P>A method either succeeds or fails.  If it fails, return <FONT FACE="Courier New" SIZE=2>false</FONT>. If it succeeds, return <FONT FACE="Courier New" SIZE=2>true</FONT>.  Any variable arguments you bind using <FONT FACE="Courier New" SIZE=2>matchTerms()</FONT> or <FONT FACE="Courier New" SIZE=2>unify()</FONT> will be returned to the caller, but there is only one set. Never call <FONT FACE="Courier New" SIZE=2>Bindings.reset()</FONT> in a method handler.</P>
+<LI><A NAME="_Toc85967426"><B><I><FONT FACE="Arial" SIZE=4>How to use an existing service outside Midiki</A></LI>
+</B></I></FONT>
+<P>It is often desirable to be able to use existing services, such as speech recognizers, parsers, text-to-speech engines, and so forth.  To do that from within Midiki, you need to make it appear to the system as if it was any other service accessible through a Cell.  One way to do this, of course, is to implement the interface yourself inside a handler. </P>
+
+<P>However, if the component you want to use has already been fitted with an agent interface (such as GalaxyCommunicator, OAA, RTI, CORBA, etc.) it may be more cost-effective to write some generic bridging code, particularly if there are several desired components using the same infrastructure.</P>
+
+<P>That bridging code, the <FONT FACE="Courier New" SIZE=2>Mediator</FONT>, can also allow external agents on that infrastructure to see and access services that you define within your Midiki dialogue manager.  This can be done, for example, if you want to provide a Midiki dialogue manager as a service to an existing GalaxyCommunicator federation without making Midiki the &quot;traffic cop&quot;.(This is in fact the approach we have taken for our simple Communicator example.)</P>
+<OL>
+
+<B><FONT FACE="Arial" SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967427">Creating a Mediator</A></LI>
+</B></FONT>
+<P>The key software component that must be added to Midiki is a class that implements the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> interface.  A properly implemented <FONT FACE="Courier New" SIZE=2>Mediator</FONT> should plug seamlessly into the Information State implementation.  In practice, there will be some differences in operating characteristics.</P>
+
+<P>There are currently two main levels of <FONT FACE="Courier New" SIZE=2>Mediator</FONT>s: those which implement the &quot;Midiki protocol&quot;, and those which do not.  The Midiki protocol as has been defined in this manual is the specification for data distribution and maintenance within the Information State.  If a <FONT FACE="Courier New" SIZE=2>Mediator</FONT> does not support the protocol, the IS implementation does not attempt to use that <FONT FACE="Courier New" SIZE=2>Mediator</FONT> for data distribution, and the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> implementor has less work to do.</P>
+
+<P>The <FONT FACE="Courier New" SIZE=2>Mediator</FONT> for the GalaxyCommunicator framework, for example, does not support the Midiki protocol. It does not wait for method calls to return, cannot use return values from method calls it makes, and does not propagate data attributes.</P>
+
+<P>If your dialogue system is designed so that the dialogue manager communicates with other components exclusively through methods and queries, then this is a reasonable choice.</P>
+
+<P>If, on the other hand, you prefer to interact with the dialogue manager by changing (or reacting to changes in) data attributes within the Information State, then your <FONT FACE="Courier New" SIZE=2>Mediator</FONT> will need to support the protocol.</P>
+
+<P>Every Midiki dialogue manager must have at least one <FONT FACE="Courier New" SIZE=2>Mediator</FONT> that supports the Midiki protocol. The distribution includes a standard baseline <FONT FACE="Courier New" SIZE=2>Mediator</FONT> which supports the Midiki protocol, to permit communication between agents within a single main program.</P>
+<P>&nbsp;</P>
+<B><FONT FACE="Arial" SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967428">Mediator operations</A></LI>
+</B></FONT>
+<P>This section provides a brief overview of the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> interface, for those who want to connect to dialogue system components which do not use a currently supported agent protocol.</P>
+<OL>
+
+<LI><A NAME="_Toc85967429"><B><FONT SIZE=4>Configuring the Mediator</A></LI>
+<OL>
+
+<LI><A NAME="_Toc85967430"></FONT><I><FONT SIZE=4>Public name</A></LI>
+</B></I></FONT><P>This is the name the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> is known by within Midiki.  This is primarily used for formatting log records and messages.</P>
+<LI><A NAME="_Toc85967431"><B><I><FONT SIZE=4>Agent name</A></LI>
+</B></I></FONT><P>Many agent frameworks require participating agents to have names by which those agents are identified to the framework.  Those names are not particularly relevant to Midiki, but are provided in order to play well with the agent framework.</P>
+<LI><A NAME="_Toc85967432"><B><I><FONT SIZE=4>Configuration</A></LI>
+</B></I></FONT><P>It may be necessary for the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> to access some configuration information during setup, such as hostname, port number, and so on.  Midiki assumes this information is stored in standard Java property files and loaded into <FONT FACE="Courier New" SIZE=2>PropertyTree</FONT> structures.  The <FONT FACE="Courier New" SIZE=2>PropertyTree</FONT> is a convenience class we’ve created that groups property values by name, using standard qualified names.</P>
+
+<P>For example, a typical property specification might be:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>agent.io_agent.class=org.mitre.dm.qud.IOAgent</P>
+</FONT>
+<P>That property would be grouped with the following property:</P>
+
+<FONT FACE="Courier New" SIZE=2><P>agent.io_agent.mediator=default</P>
+</FONT>
+<P>regardless of the ordering of properties in the input file. In other words, there are a set of properties applying to agents (prefixed by ‘<FONT FACE="Courier New" SIZE=2>agent</FONT>.’).</P>
+
+<P>Some of those properties apply to the <FONT FACE="Courier New" SIZE=2>io_agent</FONT>. Those properties include <FONT FACE="Courier New" SIZE=2>class</FONT> and <FONT FACE="Courier New" SIZE=2>mediator</FONT>.</P>
+<LI><A NAME="_Toc85967433"><B><I><FONT SIZE=4>Midiki protocol status</A></LI></OL>
+
+</B></I></FONT><P>This is a Boolean which is set to <FONT FACE="Courier New" SIZE=2>true</FONT> if the Midiki protocol is supported, and <FONT FACE="Courier New" SIZE=2>false</FONT> otherwise.</P>
+<LI><A NAME="_Toc85967434"><B><FONT SIZE=4>Connecting to the agent framework</A></LI>
+</B></FONT><P>Agent frameworks often have a set protocol by which an agent can connect to the framework, advertise its capabilities, and declare its readiness to act.  The <FONT FACE="Courier New" SIZE=2>Mediator</FONT> interface explicitly addresses this model of initialization.  The notional activities of each phase are documented below.  Since different frameworks work differently, however, these specifications are just guidelines.  The only hard requirement is that the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> truly be ready when control returns from <FONT FACE="Courier New" SIZE=2>assert_readiness()</FONT>.</P>
+<OL>
+
+<LI><A NAME="_Toc85967435"><B><I><FONT SIZE=4>Registering this Mediator</A></LI>
+</B></I></FONT><P>Many agent frameworks have the concept of an agent registering itself with the framework.  Typically, this includes opening the connection and sending some type of identification. </P>
+<LI><A NAME="_Toc85967436"><B><I><FONT SIZE=4>Declaring/specifying your services</A></LI>
+</B></I></FONT><P>Once a component has registered with the <FONT FACE="Courier New" SIZE=2>Mediator</FONT>, it assembles the metadata for two sets of services: those which it <I>provides</I> through this <FONT FACE="Courier New" SIZE=2>Mediator</FONT>, and those which it will <I>request</I> through this <FONT FACE="Courier New" SIZE=2>Mediator</FONT>.  In the API, we will use the keyword <I>declare</I> for services we provide, and <I>specify</I> for services we use.  By declaring and specifying services, the agent is able to inform the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> of its requirements, and the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> in turn is able to format those requirements for the underlying agent framework</P>
+<LI><A NAME="_Toc85967437"><B><I><FONT SIZE=4>Completing startup</A></LI></OL>
+
+</B></I></FONT><P>This phase is handled by the <FONT FACE="Courier New" SIZE=2>assert_readiness()</FONT> routine. Some frameworks may require all service declarations to be available at startup, so in those frameworks this routine would handle the actual connection. In some other frameworks, there might be nothing to do but set an internal flag to allow normal message processing to begin. Whatever the mechanism, this routine signals that this Midiki agent is ready to go.</P>
+<LI><A NAME="_Toc85967438"><B><FONT SIZE=4>Invoking services</A></LI>
+<OL>
+
+<LI><A NAME="_Toc85967439"></FONT><I><FONT SIZE=4>Calling out to other agents</A></LI></OL>
+</OL>
+</OL>
+</OL>
+</OL>
+
+</B></I></FONT>
+<P>There are several ways of calling out to other agents:</P>
+
+
+<UL>
+<LI>Synchronous request</LI></UL>
+
+
+<UL>
+<LI>The most common use of a service. The <FONT FACE="Courier New" SIZE=2>Mediator</FONT> must send the request to one other agent for processing, and will suspend execution until a result comes back.</LI></UL>
+
+
+
+<UL>
+<LI>Asynchronous request</LI>
+<LI>The <FONT FACE="Courier New" SIZE=2>Mediator</FONT> sends the request to one other agent, but does not wait for the service to complete. Not suitable for a query service. This is expected to be the typical mode for interacting with an external agent architecture.</LI></UL>
+
+
+
+<UL>
+<LI>Broadcast request (Asynchronous)</LI>
+<LI>The <FONT FACE="Courier New" SIZE=2>Mediator</FONT> sends the request to all other Midiki agents, and does not wait for the service to complete. Not suitable for a query service. This is currently required for the Midiki protocol, since there are some messages which must be propagated to all agents. </LI></UL>
+
+
+<P>Different agent infrastructures make different assumptions in this area. Some do not support broadcast, some are (a)synchronous by design or default. The <FONT FACE="Courier New" SIZE=2>Mediator</FONT> for each architecture must supply the additional functionality required.</P>
+<OL>
+<OL>
+<OL>
+<OL>
+<OL>
+
+<LI><A NAME="_Toc85967440"><B><I><FONT SIZE=4>Responding to requests from other agents</A></LI>
+</B></I></FONT>
+<P>Every agent that provides services registers those services with a Mediator. That Mediator needs to be able to accept external requests, invoke the appropriate service handlers, and return the results to the requesting agent. We don’t mandate any particular API or message format to accomplish this, since that depends on the particulars of the agent infrastructure.</P>
+
+<P>Agents using a Mediator shouldn’t need to know anything about the internals of that Mediator or its underlying agent infrastructure. Required parameters should be passed through properties (see section 5.4) or as part of dialogue system configuration. For example, GalaxyCommunicator requires agents to provide custom classes whose methods follow a specific naming scheme. The class should be constructed as part of the overall system design, and the class name passed as a property.</P>
+<LI><A NAME="_Toc85967441"><B><I><FONT SIZE=4>Pausing and resuming execution</A></LI></OL>
+</OL>
+</OL>
+</OL>
+</OL>
+
+</B></I></FONT><P>These services are essential for <FONT FACE="Courier New" SIZE=2>Mediator</FONT>s that support synchronous requests (including any <FONT FACE="Courier New" SIZE=2>Mediator</FONT> supporting the Midiki protocol).  These services allow Midiki to perform other processing, particularly responding to other messages, while waiting for a request to complete.</P>
+<OL>
+<OL>
+<OL>
+<OL>
+
+<LI><A NAME="_Toc85967442"><B><FONT SIZE=4>Maintaining Information State attributes</A></LI></OL>
+</OL>
+</OL>
+</OL>
+
+</B></FONT>
+<P>The <FONT FACE="Courier New" SIZE=2>Mediator</FONT> interface mandates routines to <FONT FACE="Courier New" SIZE=2>getData</FONT>, <FONT FACE="Courier New" SIZE=2>setData</FONT>, and <FONT FACE="Courier New" SIZE=2>replaceData</FONT>, which refer to the attributes of a cell. These routines can safely be stubbed out if your <FONT FACE="Courier New" SIZE=2>Mediator</FONT> does not support the Midiki protocol. If, however, you are supporting the full protocol, then you may want to implement these methods. The intent of these methods is to allow a Midiki agent to retrieve the contents of attributes without waiting for the values to be changed. This mechanism functions in parallel with a set of automatically defined services for data distribution, and allows agents to retrieve the current values of attributes even if they have missed the change event.</P>
+<OL>
+<OL>
+<OL>
+
+<B><FONT FACE="Arial" SIZE=4><LI></LI>
+<LI><A NAME="_Toc85967443">Operation sequence</A></LI></OL>
+</OL>
+</OL>
+
+</B></FONT>
+<P>Notionally, we expect the following sequence of <FONT FACE="Courier New" SIZE=2>Mediator</FONT> operations to occur when the dialogue system is started:</P>
+
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>configure</FONT> will be called to initialize the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> and set any required parameters.</LI>
+<FONT FACE="Courier New" SIZE=2><LI>register</FONT> will be called to connect to the infrastructure.</LI>
+<LI>as many calls as necessary will be made to the <FONT FACE="Courier New" SIZE=2>append&lt;X&gt;Declaration</FONT>, <FONT FACE="Courier New" SIZE=2>append&lt;X&gt;Specification</FONT>, and <FONT FACE="Courier New" SIZE=2>registerServiceHandler</FONT> methods.</LI>
+<FONT FACE="Courier New" SIZE=2><LI>declareServices</FONT> will be called to complete the registration process.</LI>
+<FONT FACE="Courier New" SIZE=2><LI>assertReadiness</FONT> will be called. After this point the system should be ready to accept and handle service requests.</LI>
+<LI>services may be used, and data attributes may be read or changed.</LI></UL>
+
+
+<P>There is currently no explicit shutdown method for a <FONT FACE="Courier New" SIZE=2>Mediator</FONT>. This may change if there is sufficient need.</P>
+<OL>
+<OL>
+
+<LI><A NAME="_Toc85967444"><B><I><FONT FACE="Arial" SIZE=4>The Executive class and Midiki properties</A></LI></OL>
+</OL>
+
+</B></I></FONT><P>The Midiki core specifies how to access Information States, but says nothing about how to create them. To meet this need, we have created the <FONT FACE="Courier New" SIZE=2>org.mitre.dm.Executive</FONT> class to serve as a wrapper for a collection of Midiki agents. The <FONT FACE="Courier New" SIZE=2>Executive</FONT> launches a user-defined set of agents, either passed as an array of class names or specified in a property file, dynamically loading classes as required. Once all of the agents are created and initialized, the <FONT FACE="Courier New" SIZE=2>Executive</FONT> queries them for required contracts and provided services, assembles an Information State that supports the union of those requirements, and provides each of the agents with a view of the Information State.</P>
+
+<P>The <FONT FACE="Courier New" SIZE=2>Executive</FONT> is also responsible for instantiating the <FONT FACE="Courier New" SIZE=2>Mediator</FONT> or <FONT FACE="Courier New" SIZE=2>Mediator</FONT>s required for the Information State, although it does not currently start any external processes that may be required. The final act of the <FONT FACE="Courier New" SIZE=2>Executive</FONT> is to set an attribute of the Information State to a user-specified value to signal the agents that the system is starting.</P>
+
+<P>Configuration information is typically passed to the <FONT FACE="Courier New" SIZE=2>Executive</FONT> through property files. This is a standard Java concept for mapping parameter names to values and loading or saving those mappings from/to files. Parameter names use dotted notation for grouping attributes; that is, the most general category is to the left, with more specific subgroups or attributes proceeding to the right and separated by dots. The current set of understood properties is enumerated below in Table 8. Additional properties can and should be added as needed to support specific agents and mediators.</P>
+
+<P>&nbsp;</P>
+<P>Table 8.  Current properties.</P>
+
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<P>Property</TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>Description</TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>mediator.&lt;tag&gt;.class</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>Specifies the Java class to instantiate for the mediator called ‘&lt;tag&gt;’. For example:</P>
+<FONT FACE="Courier New" SIZE=2><P>mediator.default.class=org.mitre.midiki.impl.mitre.DummyMediator</FONT></TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>mediator.galaxy.server_class</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>Mediator-specific property for Galaxy Communicator. Specifies the Java class that will accept incoming service requests from the Hub. The <FONT FACE="Courier New" SIZE=2>MidikiServer</FONT> class is designed to provide both a suitable base class and a simple code generator for GalaxyCommunicator systems.</TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>mediator.galaxy.mode</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>Specifies whether this GalaxyCommunicator mediator is <I>native</I> or not. A native-mode Mediator does not support the Midiki protocol.</TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>agent.&lt;tag&gt;.class</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>Specifies the Java class to instantiate for the agent called ‘&lt;tag&gt;’. For example:</P>
+<FONT FACE="Courier New" SIZE=2><P>agent.interpret_agent.class=org.mitre.dm.qud.InterpretAgent</FONT></TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>agent.&lt;tag&gt;.mediator</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>Specifies the mediator to use for all contracts in this agent. If not specified, ‘default’ is used.</TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>agent.&lt;tag&gt;.master</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>Specifies that this agent holds the master copy of all data attributes in the system. One and only one agent must be designated the master; if none is specified, one will be selected by the Executive.</TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>agent.&lt;tag1&gt;.contract.&lt;tag2&gt;.mediator</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>In a multi-mediator Information State, contracts may exist on any of the mediators. Use these properties to indicate the desired assignment.</P>
+<I><P>Contracts are currently limited to a single Mediator.  This limitation will be removed in a future release.</I></TD>
+</TR>
+<TR><TD WIDTH="46%" VALIGN="TOP">
+<FONT FACE="Courier New" SIZE=2><P>executive.startup.cell<BR>
+executive.startup.attribute<BR>
+executive.startup.value</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP">
+<P>When the Executive is ready to start the system, it sets an attribute to a specified value. The ‘executive.startup’ properties define the cell, the attribute in that cell, and the value to be assigned.</TD>
+</TR>
+</TABLE>
+
+
+<P>The <FONT FACE="Courier New" SIZE=2>org/mitre/dm</FONT> directory contains several examples of Midiki property files:</P>
+
+<UL>
+<FONT FACE="Courier New" SIZE=2><LI>simple_midiki.properties</FONT> defines a system for the diagnosis domain</LI>
+<FONT FACE="Courier New" SIZE=2><LI>irs_midiki.properties</FONT> defines a system for the IRS domain example</LI>
+<FONT FACE="Courier New" SIZE=2><LI>midiki.properties</FONT> defines a diagnosis system that uses Communicator for input and output, creating two separate Mediators in the Information State. This is mainly of technical interest rather than practical use, since the diagnosis DME expects an interface that can display multiple sequential messages while GalaxyCommunicator’s IOPodium interface only retains the most recent one.</LI></UL>
+
+<B><I><FONT FACE="Arial" SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967445">5.5.&#9;From English to Midiki and back again</A></P>
+</B></I></FONT><P>Midiki provides the dialogue management component of the system. However, there has to be a means for communicating with Midiki before any dialogue can occur. Typically that would be handled by a parser, possibly incorporated into the speech recognizer.  Whatever process is involved, language has to be interpreted as dialogue moves, and dialogue moves must be translated into language.</P>
+<P>For support of this simple example and others like it, Midiki ships with some very simple support agents for text input/output, interpretation, and generation.  We do not expect others to rely on these agents; we provide them merely for illustration and for running toy examples.</P>
+
+<P>The InterpretationAgent tokenizes an input string and converts it into a list of words, then attempts to match a series of user-defined templates against the string.  Each template has an associated predicate which will be added to <FONT FACE="Courier New" SIZE=2>is.latest_moves</FONT> if the template matches the input at any point.</P>
+
+<P>Similarly, the GenerationAgent matches user-defined predicates against the contents of <FONT FACE="Courier New" SIZE=2>is.next_moves</FONT>, obtaining text strings which are concatenated into <FONT FACE="Courier New" SIZE=2>is.output</FONT>. These input and output templates are gathered into a resource which we refer to as the Lexicon, for historical reasons. We’ve made some convenience classes, based on the interface <FONT FACE="Courier New" SIZE=2>org.mitre.dm.domain.Matcher</FONT>, to assist in developing the lexicon. The <FONT FACE="Courier New" SIZE=2>ListMatcher</FONT> class looks for matches within a list of items, while the <FONT FACE="Courier New" SIZE=2>AtomMatcher</FONT> looks for a match with a single item.</P>
+
+<P>For example, suppose the user in our example were to type &quot;Please send me information about child tax credits.&quot; That would first be converted into a list of words, [&quot;Please&quot;, &quot;send&quot;, &quot;me&quot;, &quot;information&quot;, &quot;about&quot;, &quot;child&quot;, &quot;tax&quot;, &quot;credits&quot;, &quot;.&quot;]. Then it would be matched against input templates to determine input moves. Suppose we want the phrase &quot;send me&quot; to cue the action send_a_publication, while &quot;child tax credits&quot; cues the topic child_tax_credits. We insert this code into the lexicon <FONT FACE="Courier New" SIZE=2>initializeInputMatches</FONT> routine:</P><DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>ListMatcher work;</P>
+<P>work = newInputMatcher();</P>
+<P>work.addInputTokens("send me");</P>
+<P>work.addOutputNestedPredicate<BR>
+&#9;("answer","action", "send_publication");</P>
+<P>addInputMatch(work);</P>
+
+<P>work = newInputMatcher();</P>
+<P>work.addInputTokens("child tax credits");</P>
+<P>work.addOutputNestedPredicate<BR>
+&#9;("answer","topic", "child_tax_credits");</P>
+<P>addInputMatch(work);</P>
+</FONT>
+<P>&nbsp;</P></DIR>
+
+<P>When the matcher is called, Midiki would receive</P>
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>[answer(action(send_publication)), answer(topic(child_tax_credits))]</P>
+</FONT></DIR>
+
+<P>as the latest set of user moves.  Note that the user move is an <I>answer</I> to the system’s initial question of &quot;How can I help you?&quot;.</P>
+
+<P>In our simple interpretation agent, portions of the string which have been matched are ignored during subsequent matches. It is up to the lexicon developer to ensure that longer matches are encountered first, since matches are processed in the order that they are declared.</P>
+
+<P>Output generation is handled in the same basic way, except that this time the predicates are the input to the match and text is the output. For example:</P><DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>AtomMatcher work = newOutputMatcher();</P>
+<P>work.addInputNestedPredicate("ask", "ssn", new Variable("X"));</P>
+<P>work.addOutputTokens("Please enter your social security number.");</P>
+<P>addOutputMatch(work);</P>
+</FONT></DIR>
+
+<P>formats a user prompt to enter their Social Security Number.</P>
+<B><I><FONT FACE="Arial" SIZE=4><P>&nbsp;</P>
+<P><A NAME="_Toc85967446">5.6&#9;Testing Midiki with GalaxyCommunicator</A></P>
+</B></I></FONT>
+<P>For those interested, the following instructions explain how to test Midiki with the GalaxyCommunicator infrastructure, on a Windows platform.</P>
+
+<P>In addition to installing Midiki as described in Chapter 2, you’ll also need to install the following five items:</P>
+
+
+<UL>
+<LI>Midiki’s pre-compiled GalaxyCommunicator .jar file, midiki-galaxy-0.1.4.jar, which can be downloaded from midiki.sourceforge.net.<BR>
+</LI>
+<LI>Version 2.2.x (not version 2.3.x) of Python, which is used by GalaxyCommunicator.</LI></UL>
+
+
+<UL>
+<LI>You can get that from www.python.org.</LI>
+<LI>Add to your path wherever you installed python (e.g. <FONT FACE="Courier New" SIZE=2>C:\python22</FONT>).</LI>
+<LI>You'll also need Mark Hammond's Win32 extensions to Python, available from a link  on the python download page.</LI></UL>
+
+
+
+<UL>
+<LI>The <I>source code</I> of version 4.0 of GalaxyCommunicator (GC).</LI></UL>
+
+
+<UL>
+<LI>You can get that from communicator.sourceforge.net.</LI>
+<LI>Also be sure to follow the instructions in <BR>
+&#9;<FONT FACE="Courier New" SIZE=2>GalaxyCommunicator-4.0/docs/manual/admin/install.html</FONT><BR>
+for configuring things to use the process monitor.</LI>
+<LI>Also set an environment variable <FONT FACE="Courier New" SIZE=2>GC_HOME</FONT> to wherever you installed the standard distribution (e.g. <FONT FACE="Courier New" SIZE=2>C:\GalaxyCommunicator-4.0</FONT>).</LI>
+<LI>Also set an environmental variable <FONT FACE="Courier New" SIZE=2>PM_DIR</FONT> to where the process monitor lives (e.g. <FONT FACE="Courier New" SIZE=2>C:\GalaxyCommunicator-4.0\contrib\MITRE\tools\src\process_monitor</FONT>).</LI></UL>
+
+
+
+<UL>
+<LI>The <I>pre-compiled Windows distribution</I> of version 4.0 of GalaxyCommunicator</LI></UL>
+
+
+<UL>
+<LI>You’ll need this in addition to the source code described above.  The pre-compiled Windows distribution is also available at communicator.sourceforge.net.</LI>
+<LI>Create a <FONT FACE="Courier New" SIZE=2>bin</FONT> directory inside <FONT FACE="Courier New" SIZE=2>GC_HOME</FONT> (e.g. inside <FONT FACE="Courier New" SIZE=2>C:\GalaxyCommunicator-4.0</FONT>), and unpack the binaries inside this <FONT FACE="Courier New" SIZE=2>bin</FONT> directory.</LI></UL>
+
+
+
+<UL>
+<LI>Version 20030924 of the GalaxyCommunicator Open Source Tool Kit (OSTK)</LI></UL>
+
+
+<UL>
+<LI>This is also available at communicator.sourceforge.net.</LI>
+<LI>Install this (untar it) right under <FONT FACE="Courier New" SIZE=2>GC_HOME</FONT> (e.g. under <FONT FACE="Courier New" SIZE=2>C:\GalaxyCommunicator-4.0</FONT>).</LI></UL>
+
+
+<P>Having installed the above five items, you can now test Midiki with GalaxyCommunicator.  We’ll test sending messages across the Hub, between Midiki and a GalaxyCommunicator utility called the IO_Podium, a simple widget with an input and output text field.  To test this, follow the steps below:</P>
+
+
+<UL>
+<LI> First, copy <FONT FACE="Courier New" SIZE=2>cGalaxy.lib</FONT> and <FONT FACE="Courier New" SIZE=2>cGalaxy.dll</FONT> from:</LI></UL>
+
+
+<FONT FACE="Courier New" SIZE=2><P>&#9;C:\GalaxyCommunicator-4.0\bin\x86-nt\contrib\MITRE\bindings\<BR>
+&#9;&#9;python\x86-nt </P>
+</FONT><P> to</P>
+<FONT FACE="Courier New" SIZE=2><P>&#9;C:\GalaxyCommunicator-4.0\contrib\MITRE\bindings\python</P>
+</FONT>
+
+<UL>
+<LI>Next, cd to:</LI></UL>
+
+<DIR>
+
+<FONT FACE="Courier New" SIZE=2><P>MIDIKI_HOME\src\gc\org\mitre\midiki\impl\mitre\galaxy</P>
+</FONT></DIR>
+
+
+<UL>
+<LI>Edit <FONT FACE="Courier New" SIZE=2>io-podium2.config</FONT>, and edit <FONT FACE="Courier New" SIZE=2>$MIDIKI_ROOT</FONT> to reflect your midiki installation.</LI>
+<LI>Also, in the same file, in the <FONT FACE="Courier New" SIZE=2>PROCESS</FONT> line which runs java, ensure that the classpath includes <FONT FACE="Courier New" SIZE=2>$MIDIKI_ROOT/target/midiki-0.1.4.jar </FONT>and<FONT FACE="Courier New" SIZE=2> $MIDIKI_ROOT/target/midiki-galaxy-0.1.4.jar</LI></UL>
+
+
+<UL>
+</FONT><LI>In the same line, ensure the last argument reads<BR>
+<FONT FACE="Courier New" SIZE=2>$MIDIKI_ROOT/src/java/org/mitre/dm/midiki.properties</LI>
+</FONT><LI>Also, in the same file, in the <FONT FACE="Courier New" SIZE=2>PROCESS</FONT> line which runs the Communicator hub (search on &quot;hub&quot;), use the exact path for the hub executable (e.g. <BR>
+<FONT FACE="Courier New" SIZE=2>C:/GalaxyCommunicator-4.0/bin/x86-nt/bin/x86-nt/hub.exe</FONT>),<BR>
+since python on Windows seems to have trouble with the environment variables here.</LI>
+<LI>On the same line, edit the <FONT FACE="Courier New" SIZE=2>–pgm_file</FONT> argument to point to this <BR>
+<FONT FACE="Courier New" SIZE=2>io-podium2.config</FONT> file.</LI></UL>
+
+
+
+<UL>
+<LI>Edit <FONT FACE="Courier New" SIZE=2>runtest2.bat</FONT>.  Change the path in here to point to <FONT FACE="Courier New" SIZE=2>io-podium2.config</FONT> which you edited above.</LI></UL>
+
+
+
+<UL>
+<LI>Type <BR>
+<FONT FACE="Courier New" SIZE=2>&#9;runtest2.bat<BR>
+</FONT>This brings up GalaxyCommunicator’s &quot;process_monitor&quot;, a tool which monitors multiple running processes.</LI></UL>
+
+
+
+<UL>
+<LI>Click on the "IO Podium" tab, and click "Start".  The IO Podium should start and say "Opened listener on port 13050".</LI></UL>
+
+
+
+<UL>
+<LI>Click on the "ConfigurableExecutive" tab, and click "Start".  A number of strings should scroll by, including one saying &quot;Do you have a headache?&quot;  This is starting the same sample medical diagnosis dialogue as described in Chapter 2.</LI></UL>
+
+
+
+<UL>
+<LI>Click on the "Hub" tab, and click "Start".  A window named &quot;I/O Traffic&quot; should come up.  In the &quot;In:&quot; field, type &quot;Yes&quot;, to continue the medical dialogue.  Hit return, and the &quot;Out:&quot; window should reply &quot;Do you have a fever?&quot;.  You can continue the dialogue, but the &quot;Out:&quot; window only shows one line at a time, so the dialogue won’t all be visible, as it was in the example in Chapter 2.  However, GalaxyCommunicator connectivity has been achieved if you’ve gotten this far.</LI></UL>
+
+
+<P>&nbsp;</P>
+<B><FONT FACE="Arial" SIZE=5><P>&nbsp;</P>
+<P><A NAME="_Toc85967447">6&#9;Information State Display</A></P>
+</B></FONT><p>This
+version of Midiki includes the convenience class
+org.mitre.dm.tools.InfoStateGUI. This class displays the contents of the <st1:place
+w:st="on"><st1:PlaceName w:st="on">Information</st1:PlaceName> <st1:PlaceType
+ w:st="on">State</st1:PlaceType></st1:place> every time an update is executed.
+The updates are appended to the end of the current display and numbered, so the
+entire history can be viewed by scrolling. </p>
+
+<p><o:p>&nbsp;</o:p></p>
+
+<p>The
+viewer has limited functionality at present. The display is plain text so it is
+easy to cut and paste for saving. To make it easier to track changes a Find
+tool is included. To use, type text into the Find field and click the Find
+button. If the text is found, it will cause the viewer to jump to the first
+instance of the text in the window and highlight all instances of the text.
+Pressing the button subsequent times has no effect. </p>
+
+<p><o:p>&nbsp;</o:p></p>
+
+<p>The
+Viewer is custom built to work with the QUD DM framework. Much of the
+domain-specific information gets stored as a PlanInstance in the private.plan
+cell of the <st1:place w:st="on"><st1:PlaceName w:st="on">Information</st1:PlaceName>
+ <st1:PlaceType w:st="on">State</st1:PlaceType></st1:place>, and the
+InfoStateGUI uses PlanInstance's toString method to print out its contents.
+Therefore the class must be modified for use with new DM frameworks outside
+QUD. </p>
+
+<p><o:p>&nbsp;</o:p></p>
+
+<p>To
+call the InfoStateGUI in a new domain, consult travel_dm.java, the DM for the
+provided sample travel domain. The important code is in the main method, within
+the try-catch block. The following lines invoke the Viewer:</p>
+
+<FONT FACE="Courier New" SIZE=2>
+<p><o:p>&nbsp;</o:p></p>
+
+<p>ISGuiAdapter isGui = new ISGuiAdapter();<o:p></o:p></p>
+
+<p>isGui.addToplevelContract(&quot;is&quot;);<o:p></o:p></p>
+
+<p>exec.addDialogueSystemListener(isGui);<o:p></o:p></p>
+
+<p><o:p>&nbsp;</o:p></p></FONT>
+
+<p>Of
+course, this requires the importing the class:</p>
+
+<FONT FACE="Courier New" SIZE=2><p><o:p>&nbsp;</o:p></p>
+
+<p>         import org.mitre.dm.ISGuiAdapter;<o:p></o:p></p>
+
+<p><o:p>&nbsp;</o:p></p></FONT>
+
+<p>This
+class wraps the graphical display for invocation at the proper times.</p>
+
+<B><FONT FACE="Arial" SIZE=5><P>&nbsp;</P>
+<P><A NAME="_Toc85967448">7&#9;Acknowledgements</A></P>
+</B></FONT><P>We would like to thank the TRINDI project and the developers of TRINDIKIT, especially Staffan Larsson, for providing the inspiration for Midiki.</P>
+
+<P>We would also like to thank the MITRE Technology Program for supporting this work.</P>
+<FONT FACE="Courier New" SIZE=2><P>&nbsp;</P>
+</FONT><B><FONT FACE="Arial" SIZE=5><P>&nbsp;</P>
+<P><A NAME="_Toc85967449">8&#9;References</A></P>
+</B></FONT><FONT FACE="Courier New" SIZE=2><DIR>
+
+</FONT><P>Ginzburg, J. (1996). Interrogatives: Questions, facts, and dialogue. In The Handbook of Contemporary Semantic Theory. Blackwell, Oxford.</P>
+
+<P>Larsson, S., Berman, A., Gr&ouml;nqvist, L., and Kronlid, F. (2002). TRINDIKIT 3.0 Manual.  Trindi Deliverable D6.4, available at http://www.ling.gu.se/projekt/trindi/trindikit/documentation.html.</P>
+
+<P>Traum, D., Bos, J., Cooper, R., Larsson, S., Lewin, I., Matheson, C., and Poesio, M. (1999). A model of dialogue moves and information state revision.  Trindi Deliverable D2.1, available at http://www.ling.gu.se/projekt/trindi/publications.html.</P>
+
+<P>&nbsp;</P></DIR>
+</BODY>
+</HTML>

@@ -1,0 +1,45 @@
+;; Copyright (C) 2004. The MITRE Corporation (http://www.mitre.org/). All Rights Reserved.
+;; Consult the LICENSE file in the root of the distribution for terms and restrictions.
+
+;; This program file is derived from the toy-travel.pgm
+;; program file, to be used during the initial tutorial.
+
+;; The value of LOG_VERSION: will be used in 
+;; the annotation rules.
+;; (We won't use Communicator logging at this time.)
+
+;; LOG_VERSION: "io podium test, version 1"
+
+;; Use extended syntax (new in version 3.0).
+
+PGM_SYNTAX: extended
+
+;; This means that the log directory hierarchy
+;; will start in the directory where the Hub is run.
+
+;; LOG_DIR: .
+
+SERVER: IOPodiumControl
+PORT: 13050
+HOST: localhost
+OPERATIONS: show_input_string show_output_string
+
+SERVICE_TYPE: IOPodiumOutput
+OPERATIONS: FromIOPodium
+
+SERVICE_PROVIDER: IOPodiumOutput
+HOST: localhost
+PORT: 6502
+
+;; We use four crucial functions in the Builtin server.
+
+SERVER: Builtin
+OPERATIONS: new_session end_session call_program nop hub_break
+
+;; For logging, I will timestamp everything. Since
+;; I'm also logging all the relevant keys, I really
+;; don't need to timestamp, since they'll be added
+;; automatically, but it's harmless and good practice.
+
+TIMESTAMP: FromIOPodium
+

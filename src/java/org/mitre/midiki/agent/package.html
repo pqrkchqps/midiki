@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN""http://www.w3.org/TR/REC-html40/frameset.dtd">
+<!--NewPage-->
+<HTML>
+<head>
+<!--
+
+  @(#)package.html	1.60 2003/12/04
+  for org.mitre.midiki.agent
+
+  Copyright 2003-2004 The MITRE Corporation (http://www.mitre.org/).
+  All Rights Reserved.
+  Consult the LICENSE file in the root of the distribution for terms
+  and restrictions.
+
+-->
+</head>
+<body bgcolor="white">
+Provides classes for describing the behavior of dialogue system components.
+
+<h2>Introduction</h2>
+Midiki models a dialogue system as a collection of independent
+software programs (<code>Agent</code>s), which perform dialogue
+management by a series of updates to an <b>information state</b>.
+The information state (see package org.mitre.midiki.state) acts as
+a blackboard for <code>Agent</code>s to store and exchange information,
+and as a medium for requesting and providing services.
+Each <code>Agent</code> registers an interest in the portions
+of the information state which are relevant to it, implements
+handlers for the services which it provides to the dialogue system,
+and monitors certain data elements (<b>attributes</b>) for changes.
+The classes in this package provide basic facilities for responding
+to information state changes by evaluating <code>Rule</code>s.<p>
+The base form of <code>Rule</code> executes an arbitrary block of code
+when evaluated. Most of the time, however, we're only interested in 
+executing the rule if the information state satisfies a set of
+<code>Condition</code>s. A <code>Condition</code> evaluates to
+<code>true</code> or <code>false</code>. If true, it may bind some
+logic variables to specific values. There may actually be several sets
+of values that will satisfy the <code>Condition</code>, which can be
+explored in turn through <b>backtracking</b>.<p>
+<code>Condition</code>s can be cascaded. They will be evaluated in order,
+binding variables as they go. If one fails, Midiki will backtrack,
+checking for alternate values to assign to the variables until either
+all of the <code>Condition</code>s have succeeded or all options are
+exhausted.<p>
+In most cases, it is appropriate to execute a <code>Rule</code> once
+for some arbitrary set of values that satisfies the <code>Condition</code>.
+This is what an <code>ExistsRule</code> does. It evaluates its
+<code>Condition</code>, runs a user-defined routine if it succeeds,
+and then it ends. However, there are times when it is more appropriate
+to run a block of code for <emph>each</emph> set of values that satisfies
+the <code>Condition</code>. This is what the <code>ForAllRule</code> does.
+Using the backtracking facility, the <code>Condition</code> will be
+evaluated until it fails, executing a user-defined routine for every set
+of values that passes muster.<p>
+Finally, we provide a <code>RuleSet</code> to aggregate several
+<code>Rule</code>s into a single package. Typically this is used for
+mutually exclusive <code>Rule</code>s that are functionally related,
+often with <code>Condition</code>s that are very similar. Evaluation
+of a <code>RuleSet</code> succeeds if one of its component <code>Rule</code>s
+succeeds. Implementations of <code>RuleSet</code> may rearrange
+the order of <code>Condition</code> evaluation for efficiency, if possible.
+The baseline implementation evaluates each component <code>Rule</code>
+in the order in which they were added to the set, but that behavior is
+not guaranteed.<p>
+
+<h2>Package Specification</h2>
+
+<img src="org_mitre_midiki_agent.gif"></img>
+<!-- FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT
+<ul>
+  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+</ul>
+-->
+
+<h2>Related Documentation</h2>
+<!--
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+<ul>
+  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+</ul>
+-->
+
+<!-- Put @see and @since tags down here. -->
+
+</BODY>
+</HTML>

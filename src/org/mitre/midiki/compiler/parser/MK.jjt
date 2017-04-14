@@ -1,0 +1,809 @@
+options {
+  // Javacc options
+  JAVA_UNICODE_ESCAPE = true;
+  VISITOR             = true;
+  STATIC              = false;
+  //  DEBUG_PARSER        = true ;
+  //  DEBUG_TOKEN_MANAGER = true ;
+  UNICODE_INPUT       = false;
+
+
+  // JJTree options
+  MULTI               = true;
+  //  NODE_DEFAULT_VOID   = false;
+  NODE_PACKAGE        = "org.mitre.midiki.compiler.parser" ;
+  //  NODE_USES_PARSER    = false ;
+}
+
+PARSER_BEGIN(MKParser)
+
+/****************************************************************************
+ *
+ * Copyright (C) 2004. The MITRE Corporation (http://www.mitre.org/). All Rights Reserved.
+ * Consult the LICENSE file in the root of the distribution for terms and restrictions.
+ *
+ *       Release: 1.0
+ *       Date: 24-August-2004
+ *       Author: Carl Burke
+ *
+ *****************************************************************************/
+package org.mitre.midiki.compiler.parser;
+
+import java.util.*;
+
+/**
+ * MKParser parses generic scripts for the MITREkit, which we
+ * must get a better name for.
+ * There are a few sets of items which the kit will parse:
+ * - words, variables, numeric and string constants
+ * - expressions
+ * - qualified names with three delimiters
+ * - lists of items [,] and {;} forms ([,|] form?)
+ *   (list of expressions and list of statement expressions, respectively)
+ * - user-definable expressions mapping to assignment priority.
+ *   (This includes colon or other arbitrary symbol delimiter!)
+ * What we end up with is a very abstract syntax tree, with no
+ * mapping to any semantic interpretation. This tree can then be
+ * combined with a language specification which can verify that
+ * the abstract syntax tree matches a program written for that
+ * language. The languages will be very constrained, so that an
+ * easily scriptable processor can handle them.
+ */
+public class MKParser {
+
+public Vector parse_errors;
+
+public void dumpErrors()
+{
+  if (parse_errors.size()==0) {
+    System.out.println("No errors.");
+    return;
+  }
+  if (parse_errors.size()==1) {
+    System.out.println(parse_errors.size()+" error.");
+  } else {
+    System.out.println(parse_errors.size()+" errors.");
+  }
+  Enumeration enum = parse_errors.elements();
+  while (enum.hasMoreElements()) {
+    ParseException pe = (ParseException)enum.nextElement();
+    System.out.println(pe);
+  }
+}
+
+private void reset_error_vector()
+{
+  if (parse_errors == null) {
+    parse_errors = new Vector();
+  } else {
+    parse_errors.clear();
+  }
+}
+
+private void statement_error() {
+  ParseException e = generateParseException();
+  statement_error(e); // print the error message
+}
+private void statement_error(ParseException e) {
+  parse_errors.addElement(e);
+  Token t;
+  do {
+    t = getNextToken();
+  } while ((t.kind != SEMICOLON) && (t.kind != EOF));
+  // The above loop consumes tokens all the way upto a token of
+  // "kind". We use a do-while loop rather than a while because the
+  // current token is the one immediately before the erroneous token
+  // (in our case the token immediately before what should have been
+  // "if"/"while".
+}
+
+private void block_error() {
+  ParseException e = generateParseException();
+  block_error(e); // print the error message
+}
+private void block_error(ParseException e) {
+  parse_errors.addElement(e);
+  Token t;
+  do {
+    t = getNextToken();
+  } while ((t.kind != RBRACE) && (t.kind != EOF));
+  // The above loop consumes tokens all the way upto a token of
+  // "kind". We use a do-while loop rather than a while because the
+  // current token is the one immediately before the erroneous token
+  // (in our case the token immediately before what should have been
+  // "if"/"while".
+}
+
+  public static void main(String args[]) {
+    MKParser parser;
+    if (args.length == 0) {
+      System.out.println("MK Parser:  Reading from standard input . . .");
+      parser = new MKParser(System.in);
+    } else if (args.length == 1) {
+      System.out.println("MK Parser:  Reading from file " + args[0] + " . . .");
+      try {
+        parser = new MKParser(new java.io.FileInputStream(args[0]));
+      } catch (java.io.FileNotFoundException e) {
+        System.out.println("MK Parser:  File " + args[0] + " not found.");
+        return;
+      }
+    } else {
+      System.out.println("MK Parser:  Usage is one of:");
+      System.out.println("         java MKParser < inputfile");
+      System.out.println("OR");
+      System.out.println("         java MKParser inputfile");
+      return;
+    }
+/*
+    try {
+      parser.javacc_input();
+      System.out.println("MK Parser:  MK program parsed successfully.");
+    } catch (ParseException e) {
+      System.out.println(e.getMessage());
+      System.out.println("MK Parser:  Encountered errors during parse.");
+    }
+*/
+    try {
+      ASTCompilationUnit n = parser.CompilationUnit();
+      parser.dumpErrors();
+      n.dump("");
+      System.out.println("Thank you.");
+    } catch (Exception e) {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(MKParser)
+
+
+/*
+ * Token definitions
+ */
+
+/* WHITE SPACE */
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+/* COMMENTS */
+
+MORE :
+{
+  "//" : IN_SINGLE_LINE_COMMENT
+|
+  "%" : IN_SINGLE_LINE_COMMENT
+|
+  "/*" : IN_MULTI_LINE_COMMENT
+}
+
+<IN_SINGLE_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <MULTI_LINE_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_SINGLE_LINE_COMMENT,IN_MULTI_LINE_COMMENT>
+MORE :
+{
+  < ~[] >
+}
+
+/* JAVA-STYLE LITERALS */
+
+TOKEN :
+{
+  < INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+|
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+|
+  < FLOATING_POINT_LITERAL:
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+  >
+|
+  < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+|
+  < CHARACTER_LITERAL:
+      "'"
+      (   (~["'","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )
+      "'"
+  >
+|
+  < STRING_LITERAL:
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+}
+
+/* IDENTIFIERS - LATIN-1 character set only */
+
+TOKEN :
+{
+  < IDENTIFIER: <LC_LETTER> (<LC_LETTER>|<UC_LETTER>|<DIGIT>|"_")* >
+|
+  < VARIABLE: (<UC_LETTER>|"_") (<LC_LETTER>|<UC_LETTER>|<DIGIT>|"_")* >
+|
+  < #LC_LETTER:
+      [
+       "a"-"z",
+       "\u00df",
+       "\u00e0"-"\u00f6",
+       "\u00f8"-"\u00ff"
+      ]
+  >
+|
+  < #UC_LETTER:
+      [
+       "A"-"Z",
+       "\u00c0"-"\u00d6",
+       "\u00d8"-"\u00de"
+      ]
+  >
+|
+  < #DIGIT:
+      [
+       "0"-"9"
+      ]
+  >
+}
+
+/* SEPARATORS */
+
+TOKEN :
+{
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+| < HASH: "#" >
+| < FLEX: "^" >
+}
+
+/* OPERATORS */
+
+TOKEN :
+{
+  < GT: ">" >
+| < LT: "<" >
+| < EQ: "==" >
+| < LE: "<=" >
+| < GE: ">=" >
+| < NE: "!=" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < BANG: "!" >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < STAR: "*" >
+| < SLASH: "/" >
+| < SYMBOL: (<SYMBOL_CHAR>)+ >/* newly defined symbols, fixed precedence */
+| < #SYMBOL_CHAR:
+      [
+        ">",
+        "<",
+        "=",
+        "&",
+        "+",
+        "-",
+        "*",
+        "/",
+        "\\",
+        "#",
+        "$",
+        "@",
+        "^",
+        "~",
+        "?",
+        "!",
+        ":",
+        "."
+      ] >
+}
+
+
+/*****************************************
+ * THE GRAMMAR SPECIFICATION STARTS HERE *
+ *****************************************/
+
+/*
+ * Program structuring syntax follows.
+ * Each source file is treated as a list of statements.
+ */
+
+ASTCompilationUnit CompilationUnit() :
+{}
+{
+  { reset_error_vector(); }
+  try {
+  (
+    StatementList() <EOF>
+  )
+  } catch (ParseException e) {
+    // somehow we bubbled up to this level.
+    // record the error without attempting to recover.
+    parse_errors.addElement(e);
+  }
+  { jjtThis.refToken = token;
+    return jjtThis; }
+}
+
+/*
+ * Name syntax follows.
+ */
+
+ASTName Name() :
+{
+    ASTQualifierList ql;
+}
+{
+  Designator()
+  { jjtThis.setQualified(false); }
+  [ ql=QualifierList()
+  { jjtThis.setQualified(true); jjtThis.setQualType(ql.getQualType());}
+  ]
+  { jjtThis.refToken = token;
+    return jjtThis; }
+
+}
+
+void Designator() :
+{}
+{
+  Identifier()
+  { jjtThis.refToken = token; }
+|
+  Variable()
+  { jjtThis.refToken = token; }
+}
+
+void Identifier() :
+{
+  Token t;
+}
+{
+  t=<IDENTIFIER>
+  {
+    jjtThis.refToken = token;
+    jjtThis.setName(t.image);
+  }
+}
+
+void Variable() :
+{
+  Token t;
+}
+{
+  t=<VARIABLE>
+  {
+    jjtThis.refToken = token;
+    jjtThis.setName(t.image);
+  }
+}
+
+ASTQualifierList QualifierList() :
+{}
+{
+   DotQualifier() ( DotQualifier() )*
+   {jjtThis.setQualType(ASTName.QUAL_DOT);
+    jjtThis.refToken = token;
+    return jjtThis;
+   }
+|
+   HashQualifier() ( HashQualifier() )*
+   {jjtThis.setQualType(ASTName.QUAL_HASH);
+    jjtThis.refToken = token;
+    return jjtThis;
+   }
+}
+
+void DotQualifier() :
+{}
+{
+  <DOT> Designator()
+  { jjtThis.refToken = token; }
+}
+
+void HashQualifier() :
+{}
+{
+  <HASH> Designator()
+  { jjtThis.refToken = token; }
+}
+
+/*
+ * Expression syntax follows.
+ */
+
+void Expression() :
+/*
+ * This expansion has been written this way instead of:
+ *   Assignment() | ConditionalExpression()
+ * for performance reasons.
+ * However, it is a weakening of the grammar for it allows the LHS of
+ * assignments to be any conditional expression whereas it can only be
+ * a primary expression.  Consider adding a semantic predicate to work
+ * around this.
+ */
+{}
+{
+  LogicalExpression() [ AssignmentOperator() LogicalExpression() ]
+  { jjtThis.refToken = token; }
+}
+
+void AssignmentOperator() :
+{
+  Token t;
+}
+{
+  t=<SYMBOL>
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+}
+
+void LogicalExpression() :
+{}
+{
+  RelationalExpression() ( LogicalOperator() RelationalExpression() )*
+  { jjtThis.refToken = token; }
+}
+
+void LogicalOperator() :
+{
+  Token t;
+}
+{
+  t="||"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t="&&"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+}
+
+void RelationalExpression() :
+{}
+{
+  AdditiveExpression() ( RelationalOperator() AdditiveExpression() )*
+  { jjtThis.refToken = token; }
+}
+
+void RelationalOperator() :
+{
+  Token t;
+}
+{
+  t="<"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t=">"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t="<="
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t=">="
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t="=="
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t="!="
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+}
+
+void AdditiveExpression() :
+{}
+{
+  MultiplicativeExpression() ( LOOKAHEAD(2) AdditiveOperator() MultiplicativeExpression() )*
+  { jjtThis.refToken = token; }
+}
+
+void AdditiveOperator() :
+{
+  Token t;
+}
+{
+  t="+"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t="-"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+}
+
+void MultiplicativeExpression() :
+{}
+{
+  UnaryExpression() ( MultiplicativeOperator() UnaryExpression() )*
+  { jjtThis.refToken = token; }
+}
+
+void MultiplicativeOperator() :
+{
+  Token t;
+}
+{
+  t="*"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+| t="/"
+  {
+    jjtThis.refToken = token;
+    jjtThis.setOp(t.image);
+  }
+}
+
+void UnaryExpression() :
+{}
+{
+  [ NegationOperator() ] PrimaryExpression()
+  { jjtThis.refToken = token; }
+}
+
+void NegationOperator() :
+{}
+{
+  "-"
+  { jjtThis.refToken = token; }
+|
+  "!"
+  { jjtThis.refToken = token; }
+}
+
+void PrimaryExpression() :
+{
+    ASTName name;
+}
+{
+  Literal()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTPrimaryExpression.br_lit);}
+|
+  "(" Expression() ")"
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTPrimaryExpression.br_par);}
+|
+  Expressions()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTPrimaryExpression.br_lst);}
+|
+  Statements()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTPrimaryExpression.br_blk);}
+|
+  name=Name()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTPrimaryExpression.br_nam);
+    name.setHasArgs(false);}
+  [ LOOKAHEAD(2, {getToken(0).endLine == getToken(1).beginLine &&
+                  getToken(0).endColumn == (getToken(1).beginColumn-1)} )
+    Arguments()
+    { jjtThis.refToken = token;
+      jjtThis.setBranch(ASTPrimaryExpression.br_fnc);
+      name.setHasArgs(true);}
+  ]
+}
+
+void Literal() :
+{}
+{
+  IntegerLiteral()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTLiteral.br_int);}
+|
+  FloatingPointLiteral()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTLiteral.br_flt);}
+|
+  CharacterLiteral()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTLiteral.br_chr);}
+|
+  StringLiteral()
+  { jjtThis.refToken = token;
+    jjtThis.setBranch(ASTLiteral.br_str);}
+}
+
+void IntegerLiteral() :
+{
+  Token t;
+}
+{
+  t=<INTEGER_LITERAL>
+  {
+    jjtThis.refToken = token;
+    try {
+      jjtThis.setValue(Integer.parseInt(t.image));
+    } catch (Exception e) {
+      jjtThis.setValue(0);
+    }
+  }
+}
+
+void FloatingPointLiteral() :
+{
+  Token t;
+}
+{
+  t=<FLOATING_POINT_LITERAL>
+  {
+    jjtThis.refToken = token;
+    try {
+      jjtThis.setValue(Double.parseDouble(t.image));
+    } catch (Exception e) {
+      jjtThis.setValue(0);
+    }
+  }
+}
+
+void CharacterLiteral() :
+{
+  Token t;
+}
+{
+  t=<CHARACTER_LITERAL>
+  {
+    jjtThis.refToken = token;
+    String temp = t.image;
+    if (temp.length()==3) {
+      jjtThis.setValue(temp.charAt(1));
+    } else {
+      // convert escape to character
+    }
+  }
+}
+
+void StringLiteral() :
+{
+  Token t;
+}
+{
+  t=<STRING_LITERAL>
+  {
+    jjtThis.refToken = token;
+    String temp = t.image;
+    if (temp.length()==2) {
+      jjtThis.setValue("");
+    } else {
+      jjtThis.setValue(temp.substring(1,temp.length()-1));
+    }
+  }
+}
+
+void Arguments() :
+{}
+{
+  "(" [ ArgumentList() ] ")"
+  {jjtThis.refToken = token; }
+}
+
+void ArgumentList() :
+{}
+{
+  Expression() ( "," Expression() )*
+  {jjtThis.refToken = token; }
+}
+
+void Expressions() :
+{}
+{
+  "[" [ ExpressionList() [ "|" Expression() ] ] "]"
+  {jjtThis.refToken = token; }
+}
+
+void ExpressionList() :
+{}
+{
+  Expression() ( "," Expression() )*
+  {jjtThis.refToken = token; }
+}
+
+void Statements() :
+{}
+{
+  try {
+  (
+    "{" [ StatementList() ] "}"
+  )
+  } catch (ParseException e) {
+    block_error(e);
+  }
+  {jjtThis.refToken = token; }
+}
+
+void StatementList() :
+{}
+{
+  try {
+  (
+  Statement() ( ";" [ Statement() ] )*
+  )
+  } catch (ParseException e) {
+    statement_error(e);
+  }
+  {jjtThis.refToken = token; }
+}
+
+void Statement() :
+{}
+{
+  try {
+  (
+  Expression() ( Expression() )*
+  )
+  } catch (ParseException e) {
+    statement_error(e);
+  }
+  {jjtThis.refToken = token; }
+}
+

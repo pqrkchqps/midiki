@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN""http://www.w3.org/TR/REC-html40/frameset.dtd">
+<!--NewPage-->
+<HTML>
+<head>
+<!--
+
+  @(#)package.html	1.60 2003/12/04
+  for org.mitre.midiki.state
+
+  Copyright 2003-2004 The MITRE Corporation (http://www.mitre.org/).
+  All Rights Reserved.
+  Consult the LICENSE file in the root of the distribution for terms
+  and restrictions.
+
+-->
+</head>
+<body bgcolor="white">
+Provides the distributed information state for dialogue management.
+<h2>Introduction</h2>
+Midiki is built on the concept of a distributed information state, built up
+as a forest of typed feature structures. The feature structures and their
+components are manipulated through logical unification. This package provides
+an abstraction of the data and service distribution mechanism.
+<h3>Information State distribution</h3>
+The information state is constructed from individual <b>Cells</b>.
+A cell is an implementation of a <code>Contract</code>, which is analogous
+to a named type with zero or more attributes. Some of
+these attributes may be methods, of two types:
+<ul><li>Query - may not change the information state, but may return multiple
+alternative variable bindings</li>
+<li>Action - expected to change the information state, but may not return
+more than one set of bindings</li></ul></li>
+ Attributes reflect data
+that is propagated to all clients of the information state, and which can be
+monitored for changes. Methods and queries reflect services which are provided
+by some client of the information state, and which can be invoked by any
+other client.<p>
+Every code>Contract</code> must be provided by some agent. The provider
+maintains the <code>Cell</code> for that <code>Contract</code>, and executes 
+any associated method calls.
+A contract that is not provided has no real existence. The mechanisms for
+specifying who provides which cells is outside the scope of this library.<p>
+The information state passes through four stages of existence:<p>
+<ul><li>Definition</li>
+<li>Instantiation</li>
+<li>Execution</li>
+<li>Termination</li></ul>
+<h4>Definition</h4>
+Defining the information state requires the definition of each of the component
+cells. Since each cell is defined by a contract, this step becomes
+the specification of all of the contracts your application
+requires, and the construction of a <code>Cell</code> for each
+<code>Contract</code> this agent will provide.<p>
+
+<h4>Instantiation</h4>
+An information state is built from the following components:<p>
+<ul><li>Descriptions of the contracts required from external sources</li>
+<li>Descriptions of the cells provided locally</li>
+<li>The desired agent communication method (if none is specified, a default
+method will be used)</li>
+<li>A source of system configuration information</li>
+</ul><p>
+Pass those arguments to the instance of <code>InfoStateFactory</code>,
+which will return an <code>InfoState</code> object initialized with
+the specified structure.<p>
+It is possible to call the factory multiple times with different agent
+protocols and different root sets. 
+If an identical root cell is specified for two different agent protocols,
+a <code>Bridge</code> will automatically be constructed to maintain a
+consistent view of that cell across both protocols. This bridge transparently
+passes data and method calls in both directions, but doesn't perform any form
+of semantic translation.<p>
+Calls for protocols which aren't supported by the system as configured
+will return <code>null</code>.<p>
+
+<h4>Execution</h4>
+Once the information state has been initialized, <code>InfoListeners</code>
+can be registered. These listeners will be notified whenever the associated
+attribute is changed. It is the responsibility of the listener to evaluate
+the new value and any additional information to ensure that it is activating
+properly.<p>
+
+<h4>Termination</h4>
+Currently there are no termination methods defined for the information state.
+The information state terminates after it goes out of scope. There may be a
+need for finer control over the lifecycle of the information state.<p>
+<h2>Package Specification</h2>
+
+<img src="org_mitre_midiki_state.gif"></img>
+<!-- FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT
+<ul>
+  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+</ul>
+-->
+
+<h2>Related Documentation</h2>
+<!--
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+<ul>
+  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+</ul>
+-->
+
+<!-- Put @see and @since tags down here. -->
+
+</BODY>
+</HTML>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="midiki" default="help">
+  <!-- Give user a chance to override without editing this file
+       (and without typing -D each time it compiles it) -->
+  <property file="build.properties" />
+  <property file="${user.home}/build.properties" />
+  <property environment="env" />
+  <property name="debug"       value="true" />
+  <property name="optimize"    value="true" />
+  <property name="deprecation" value="false" />
+
+  <!-- set global properties for this build -->
+  <property name="Name" value="Midiki" /> <!-- or MIDIKI? -->
+  <property name="name" value="midiki" />
+  <!-- midiki-version under development, e.g. 1.1, 1.2, 2.0-SNAPSHOT -->
+  <property name="midiki-version"  value="0.1.4" />
+  <property name="copyright" value="2003-2006 The MITRE Corp." />
+  <property name="url"       value="http://www.mitre.org" />
+
+  <!-- directory names -->
+  <!-- These must remain simple values, (relative to basedir) -->
+  <property name="src"            value="src" />
+  <property name="java"           value="${src}/java" />
+  <property name="java.gc"        value="${src}/gc" />	
+  <property name="java.oaa"       value="${src}/oaa" />	
+  <property name="resources"      value="${src}/resources" />
+  <property name="lib"            value="lib" />
+  <property name="docs"           value="docs" />
+  <property name="docs.src"       value="xdocs" />
+  <property name="data"           value="data" />
+
+  <property name="target"         location="target" />
+  <property name="classes"        location="${target}/classes" />
+  <property name="classes.gc"     location="${target}/gc" />	
+  <property name="classes.oaa"    location="${target}/oaa" />	
+  <property name="docs.target"    location="${target}/docs" />
+  <property name="api.target"     location="${docs.target}/api" />
+  
+  <!-- midiki-versioning 
+  <property name="midiki-version.info" value="${midiki-version.path}/midiki-version.info" /> -->
+
+  <!-- packaging -->
+  <property name="base.jar" value="${name}-${midiki-version}.jar" />
+  <property name="galaxy.jar" value="${name}-galaxy-${midiki-version}.jar" />	
+  <property name="oaa.jar" value="${name}-oaa-${midiki-version}.jar" />	
+
+  <property name="dist.dir"     value="${target}/dist" />  	
+  <property name="dist.name"     value="${name}-${midiki-version}" />
+  <property name="dist.tgz"      value="${dist.name}.tar.gz" />
+
+  <!-- files for the distributions -->
+  <fileset id="docs.files" dir=".">
+    <include name="README.txt" />
+    <include name="INSTALL.txt" />
+    <include name="LICENSE.txt" />
+    <include name="${docs}/" />
+  </fileset>
+
+  <!-- external libraries -->
+  <fileset id="ext.libs" dir="${lib}" includes="*.jar" />
+  <fileset id="galaxy.libs" dir="${env.GC_HOME}/contrib/MITRE/bindings/java/lib"
+           includes="*.jar" />
+
+  <path id="ext.cp">
+    <fileset refid="ext.libs" />
+  </path>
+
+  <path id="galaxy.cp">
+    <fileset refid="galaxy.libs" />
+  </path>
+
+  <!-- class paths -->
+  <path id="bare-classpath">
+    <fileset dir="${lib}" includes="*.jar" />
+  </path>
+
+  <path id="galaxy-classpath">
+	<pathelement location="${classes}" />
+	<fileset dir="${lib}" includes="*.jar" />
+	<fileset refid="galaxy.libs" />
+  </path>	
+	
+  <path id="oaa-classpath">
+	<pathelement location="${classes}" />
+	<fileset dir="${lib}" includes="*.jar" />
+  </path>		
+	
+  <!-- ************************************** -->
+  <!-- Initialization -->
+  <!-- ************************************** -->
+
+  <target name="init">
+    <echo message="${Name}" />
+    <tstamp>
+      <format property="date" pattern="MMM d, yyyy" />
+    </tstamp>
+
+  </target>
+
+
+  <!-- ************************************** -->
+  <!-- Third party dependancy checks -->
+  <!-- ************************************** -->
+
+  <target name="check-galaxy">
+    <condition property="galaxy.present">
+      <and>
+        <isset property="env.GC_HOME" />
+        <available
+                 classname="galaxy.server.Server"
+                 classpathref="galaxy.cp" />
+      </and>
+    </condition>
+    <fail unless="galaxy.present">
+
+       Galaxy Communicator is not available.  Download it from
+       http://communicator.sf.net/.  Install it, and set the
+       'GC_HOME' property in your environment variables.
+    </fail>
+  </target>
+	
+  <target name="check-oaa">
+    <condition property="oaa.present">
+
+	    <available
+	             classname="com.sri.oaa2.lib.LibOaa"
+	             classpathref="bare-classpath" />
+
+    </condition>
+    <fail unless="oaa.present">
+
+       SRI OAA is not available.  Download it from
+       http://www.ai.sri.com/~oaa/.  Place the oaa.jar
+  	   in the system classpath or the project's lib 
+       directory.
+    </fail>
+  </target>	
+
+
+  <!-- ************************************** -->
+  <!-- Compilation targets -->
+  <!-- ************************************** -->
+
+  <!-- Compile the java code from ${src} into ${classes} -->
+  <target name="compile-midiki" 
+          description="Compile class files into 'classes'."
+  	      depends="init">
+
+    <mkdir dir="${classes}" />
+    <javac srcdir="${java}"
+           destdir="${classes}"
+           classpathref="bare-classpath"
+           debug="${debug}" 
+           optimize="${optimize}"
+           deprecation="${deprecation}" />
+  </target>
+	
+	  <!-- Compile the java code from ${src} into ${classes} -->
+  <target name="compile-midiki-galaxy" 
+	          description="Compile class files into 'classes'."
+	  	      depends="init, check-galaxy, compile-midiki">
+
+    <mkdir dir="${classes.gc}" />
+	<javac srcdir="${java.gc}"
+	           destdir="${classes.gc}"
+	           classpathref="galaxy-classpath"
+	           debug="${debug}" 
+	           optimize="${optimize}"
+	           deprecation="${deprecation}" />
+  </target>	
+	
+  <target name="compile-midiki-oaa" 
+	          description="Compile class files into 'classes'."
+	  	      depends="init, check-oaa, compile-midiki">
+
+    <mkdir dir="${classes.oaa}" />
+	<javac srcdir="${java.oaa}"
+	           destdir="${classes.oaa}"
+	           classpathref="oaa-classpath"
+	           debug="${debug}" 
+	           optimize="${optimize}"
+	           deprecation="${deprecation}" />
+  </target>		
+
+  <!-- Put everything in ${classes} into the ${name}.jar file -->
+  <target name="build-midiki" depends="compile-midiki"
+          description="Create a project jar for the core class.">
+
+    <jar destfile="${target}/${base.jar}">
+      <fileset dir="${classes}" />
+    </jar>
+  </target>
+	
+  <target name="build-midiki-galaxy" depends="build-midiki, compile-midiki-galaxy"
+	          description="Create project jars and copy third-party jars.">
+
+    <jar destfile="${target}/${galaxy.jar}">
+      <fileset dir="${classes.gc}" />
+    </jar>
+  </target>	
+	
+  <target name="build-midiki-oaa" depends="build-midiki, compile-midiki-oaa"
+	          description="Create project jars and copy third-party jars.">
+
+    <jar destfile="${target}/${oaa.jar}">
+      <fileset dir="${classes.oaa}" />
+    </jar>
+  </target>		
+
+  <!-- ************************************** -->
+  <!-- Distribution targets -->
+  <!-- ************************************** -->
+
+
+  <!-- Create distribution tarballs -->
+  <target name="dist" depends="build-midiki-galaxy, build-midiki-oaa, javadoc"
+          description="Build all distribution jar files, including tasks.">
+
+  	<delete dir="${dist.dir}/" quiet="true" />
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${dist.dir}/bin" />
+
+    <copy todir="${dist.dir}/bin" preservelastmodified="true">
+      <fileset dir="${target}" includes="${base.jar}" />
+      <fileset dir="${target}" includes="${galaxy.jar}" />    	
+      <fileset dir="${target}" includes="${oaa.jar}" />     	
+    </copy>
+  	
+  	<mkdir dir="${dist.dir}/docs" />
+  	<copy todir="${dist.dir}/docs" preservelastmodified="true">
+	  <fileset dir="${docs}">
+  	    <include name="*.doc"/>
+  	    <include name="*.ps"/>
+  	    <include name="*.gif"/>
+  	    <include name="*.htm"/>
+  	  </fileset>	
+  	</copy>
+  	
+  	<mkdir dir="${dist.dir}/docs/api" />
+  	<copy todir="${dist.dir}/docs/api" preservelastmodified="true">
+	  <fileset dir="${api.target}">
+  	    <include name="**/*"/>
+  	  </fileset>	
+  	</copy>  	
+  	
+  	<mkdir dir="${dist.dir}/src" />
+  	<copy todir="${dist.dir}/src" preservelastmodified="true">
+	  <fileset dir="${src}">
+  	    <include name="**/*.java"/>
+  	    <include name="**/*.properties"/>
+  	  </fileset>	
+  	</copy>
+  	  	
+  	
+    <tar destfile="${target}/${dist.tgz}" compression="gzip"
+         basedir="${dist.dir}" includes="**/*" />
+
+    <!-- clean up -->
+    <delete dir="${dist.dir}" />
+
+  </target>
+
+
+  <!-- ************************************** -->
+  <!-- Documentation targets -->
+  <!-- ************************************** -->
+
+
+  <!-- generate javadoc -->
+  <target name="javadoc" depends="init"
+          description="Creates javadoc in 'docs/api'">
+    <mkdir dir="${api.target}" />
+    <javadoc sourcepath="${java}"
+             destdir="${api.target}"
+             classpathref="bare-classpath"
+             author="true"
+             version="true"
+             doctitle="${Name}, v ${midiki-version}, API Specification"
+             windowtitle="${Name} v${midiki-version} API"
+             additionalparam="-breakiterator">
+      <packageset dir="${java}">
+        <include name="org/mitre/**" />
+      </packageset>
+      <header><![CDATA[<b><a target="_blank" href="${url}">${Name} v${midiki-version} API</a></b><br><font size="-2">Built ${date}</font>]]></header>
+    </javadoc>  
+  </target>
+
+
+  <!-- ************************************** -->
+  <!-- Other targets -->
+  <!-- ************************************** -->
+
+  <!-- Delete all artifacts of the project, i.e. the ${target} directory -->
+  <target name="clean" depends="init">
+    <delete quiet="true" includeEmptyDirs="true">
+      <fileset dir="${target}/" defaultExcludes="no" />
+    </delete>
+  </target>
+	
+  <target name="help">
+    <echo>
+Midiki Build Script Task Descriptions
+====================================================================
+
+compile-midiki: Compiles the core Midiki java
+    	
+compile-midiki-galaxy: Compiles the Midiki core as well as 
+    	               extensions for Galaxy Communicator
+    	
+compile-midiki-oaa: Compiles the Midiki core as well as 
+    	            extensions for SRI OAA    	
+    	
+build-midiki: Creates a jar file for the core Midiki classes
+    	
+build-midiki-galaxy: Creates a jar for the Midiki core and a jar for
+                 	 the Galaxy Communicator extenstions
+    	
+build-midiki-oaa: Creates a jar for the Midiki core and a jar for
+                  the SRI OAA extenstions    	
+    	
+dist: Builds core Midiki and all extensions. Generates javadoc and 
+      copies source to a single tarball
+    	
+clean: Cleans the build space (Currently the target directory)
+    	
+help: Prints this message    	
+====================================================================
+    </echo>
+  </target>	
+
+</project>

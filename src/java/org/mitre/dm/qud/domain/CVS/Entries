@@ -1,0 +1,23 @@
+/AgendaMatcher.java/1.1/Sat Jul 23 19:17:09 2005//
+/AtomMatcher.java/1.2/Wed Feb 21 00:05:13 2007//
+/AttributeEvaluator.java/1.1/Sat Jul 23 19:17:09 2005//
+/BoundConstraint.java/1.1/Sat Jul 23 19:17:09 2005//
+/DomainCell.java/1.1/Sat Jul 23 19:17:09 2005//
+/DomainImplementation.java/1.7/Mon Feb 26 19:13:30 2007//
+/EnumerationAttributeEvaluator.java/1.1/Sat Jul 23 19:17:09 2005//
+/Filter.java/1.1/Sat Jul 23 19:17:09 2005//
+/Formatter.java/1.1/Sat Jul 23 19:17:09 2005//
+/LexiconCell.java/1.1/Sat Jul 23 19:17:09 2005//
+/LexiconImplementation.java/1.1/Sat Jul 23 19:17:09 2005//
+/ListConstraint.java/1.1/Sat Jul 23 19:17:09 2005//
+/ListMatcher.java/1.1/Sat Jul 23 19:17:09 2005//
+/Match.java/1.1/Sat Jul 23 19:17:09 2005//
+/MatchSet.java/1.1/Sat Jul 23 19:17:09 2005//
+/Matcher.java/1.1/Sat Jul 23 19:17:09 2005//
+/Plan.java/1.2/Mon Aug 15 15:37:24 2005//
+/PlanInstance.java/1.4/Mon Aug 15 18:47:28 2005//
+/PlanOperation.java/1.1/Sat Jul 23 19:17:09 2005//
+/SimpleTextFormatter.java/1.1/Sat Jul 23 19:17:09 2005//
+/Tokenizer.java/1.1/Sat Jul 23 19:17:09 2005//
+/UnboundConstraint.java/1.1/Sat Jul 23 19:17:09 2005//
+D
